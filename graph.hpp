@@ -4,8 +4,8 @@
 #include <vector>
 #include <list>
 
-#include "node.h"
-#include "edge.h"
+#include "node.hpp"
+#include "edge.hpp"
 
 using namespace std;
 

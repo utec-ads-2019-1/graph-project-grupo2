@@ -1,7 +1,7 @@
 #ifndef EDGE_H
 #define EDGE_H
 
-#include "node.h"
+#include "node.hpp"
 
 template <typename G>
 class Edge {

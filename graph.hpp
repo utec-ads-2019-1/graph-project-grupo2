@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <list>
+#include <iostream>
+#include <algorithm>
 
 #include "node.hpp"
 #include "edge.hpp"
@@ -30,8 +32,125 @@ class Graph {
 
     private:
         NodeSeq nodes;
+		EdgeSeq edges;
         NodeIte ni;
         EdgeIte ei;
+	
+	public:
+		Graph()
+		{
+			// TODO
+		}
+
+		~Graph()
+		{
+			// TODO
+		}
+
+		void add_node(N data)
+		{
+			node* newNode;
+
+			auto it = std::find_if
+				(
+					nodes.begin(),
+					nodes.end(),
+					[data](node *obj) -> bool
+					{
+						return obj->get_data() == data;
+					}
+				);
+			if (it == nodes.end())
+			{
+				newNode = new node(data);
+				nodes.push_back(newNode);
+			}
+		}
+
+		void remove_node(N data)
+		{
+			// TODO find if node already exists
+			
+		}
+
+		void add_edge(N node1, N node2, bool dir)
+		{
+			edge* newEdge;
+			NodeIte it1, it2;
+			EdgeIte it3;
+			/*
+			 * Check nodes existence
+			 */
+			it1 = std::find_if
+				(
+					nodes.begin(),
+					nodes.end(),
+					[node1](node *obj) -> bool
+					{
+						return obj->get_data() == node1;
+					}
+				);
+			if (it1 == nodes.end())
+			{
+				return;
+			}
+			it2 = std::find_if
+				(
+					nodes.begin(),
+					nodes.end(),
+					[node2](node *obj) -> bool
+					{
+						return obj->get_data() == node2;
+					}
+				);
+			if (it2 == nodes.end())
+			{
+				return;
+			}
+			/*
+			 * Check if this edge already exists
+			 */
+			it3 = std::find_if
+				(
+					edges.begin(),
+					edges.end(),
+					[node1, node2](edge *obj) -> bool
+					{
+						return obj->nodes[0]->get_data() == node1 &&
+						obj->nodes[1]->get_data() == node2;
+					}
+				);
+			if (it3 != edges.end())
+			{
+				return;
+			}
+			else
+			{
+				newEdge = new edge(*it1, *it2, dir);
+				edges.push_back(newEdge);
+
+			}
+		}
+
+		void print_nodes()
+		{
+			std::cout << "Nodes:\n";
+			for (auto i : nodes)
+			{
+				std::cout << i->get_data() << '\n'; 
+			}
+		}
+
+		void print_edges()
+		{
+			std::cout << "Edges:\n";
+			for (auto i : edges)
+			{
+				std::cout << 
+					i->nodes[0]->get_data() << ' ' << i->nodes[1]->get_data() 
+					<< '\n';
+			}
+		}
 };
 
 typedef Graph<Traits> graph;

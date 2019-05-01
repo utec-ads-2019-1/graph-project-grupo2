@@ -15,6 +15,21 @@ class Node {
         N data;
         double x;
         double y;
+
+	public:
+		Node(N data) : data(data)
+		{
+			//
+		}
+		Node(N data, double x, double y) : data(data), x(x), y(y)
+		{
+			//
+		}
+
+		N get_data()
+		{
+			return (data);
+		}
 };
 
 #endif

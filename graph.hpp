@@ -47,11 +47,9 @@ class Graph {
 			// TODO
 		}
 
-		void add_node(N data)
+		NodeIte node_exists(N data)
 		{
-			node* newNode;
-
-			auto it = std::find_if
+			return std::find_if
 				(
 					nodes.begin(),
 					nodes.end(),
@@ -60,6 +58,28 @@ class Graph {
 						return obj->get_data() == data;
 					}
 				);
+		}
+
+		EdgeIte edge_exists(N node1, N node2)
+		{
+			return std::find_if
+				(
+					edges.begin(),
+					edges.end(),
+					[node1, node2](edge *obj) -> bool
+					{
+						return obj->nodes[0]->get_data() == node1 &&
+						obj->nodes[1]->get_data() == node2;
+					}
+				);
+		}
+
+		void add_node(N data)
+		{
+			node* newNode;
+			NodeIte it;
+
+			it = node_exists(data);
 			if (it == nodes.end())
 			{
 				newNode = new node(data);
@@ -81,28 +101,12 @@ class Graph {
 			/*
 			 * Check nodes existence
 			 */
-			it1 = std::find_if
-				(
-					nodes.begin(),
-					nodes.end(),
-					[node1](node *obj) -> bool
-					{
-						return obj->get_data() == node1;
-					}
-				);
+			it1 = node_exists(node1);
 			if (it1 == nodes.end())
 			{
 				return;
 			}
-			it2 = std::find_if
-				(
-					nodes.begin(),
-					nodes.end(),
-					[node2](node *obj) -> bool
-					{
-						return obj->get_data() == node2;
-					}
-				);
+			it2 = node_exists(node2);
 			if (it2 == nodes.end())
 			{
 				return;
@@ -110,16 +114,7 @@ class Graph {
 			/*
 			 * Check if this edge already exists
 			 */
-			it3 = std::find_if
-				(
-					edges.begin(),
-					edges.end(),
-					[node1, node2](edge *obj) -> bool
-					{
-						return obj->nodes[0]->get_data() == node1 &&
-						obj->nodes[1]->get_data() == node2;
-					}
-				);
+			it3 = edge_exists(node1, node2);
 			if (it3 != edges.end())
 			{
 				return;

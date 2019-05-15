@@ -66,9 +66,21 @@ class Graph {
 			NodeIte it;
 
 			it = node_exists(data);
-			if (it != nodes.end())
+			if (it == nodes.end())
 			{
-				// TODO
+				return;
+			}
+			else
+			{
+				for (auto i = edges.begin(); i != edges.end(); ++i)
+				{
+					if ((*i)->nodes[0]->get_data() == data ||
+							(*i)->nodes[1]->get_data() == data)
+					{
+						edges.erase(i);
+					}
+				}
+				nodes.erase(it);
 			}
 		}
 

@@ -5,6 +5,7 @@
 
 using namespace std;
 
+<<<<<<< HEAD
 int main(int argc, char **argv)
 {
 	graph g;
@@ -20,3 +21,16 @@ int main(int argc, char **argv)
 	g.print_edges();
 	return (0);
 }
+=======
+int main(int argc, char *argv[]) {
+    graph grafo;
+    grafo.push_node('A');
+    grafo.push_node('B');
+    grafo.push_node('C');
+    grafo.push_edge('A', 'B');
+    grafo.push_edge('B', 'C');
+    grafo.remove_edge('C', 'B');
+    grafo.print();
+    return EXIT_SUCCESS;
+}
+>>>>>>> 6a6284bee1ea6ec9cf1c179849bc9c47c83bca96

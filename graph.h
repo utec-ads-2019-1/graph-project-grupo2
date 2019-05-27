@@ -5,7 +5,9 @@
 #include <list>
 #include <iostream>
 #include <algorithm>
-
+#include <set>
+#include <stack>
+#include <GL/glut.h>
 #include "node.h"
 #include "edge.h"
 
@@ -16,6 +18,8 @@ class Traits {
 		typedef char N;
 		typedef int E;
 };
+
+struct cmp;
 
 template <typename Tr>
 class Graph {
@@ -30,16 +34,14 @@ class Graph {
         typedef typename NodeSeq::iterator NodeIte;
         typedef typename EdgeSeq::iterator EdgeIte;
 
-        Graph() {}
-        void push_node(N data) {
-            NodeIte it;
-
-            if (find_node(data, it))
-                nodes.push_back(new node(data));
+        Graph() { dir = false; }
+        void push_node(N data, double x, double y) {
+            if (!find(data))
+                nodes.push_back(new node(data, x, y));
                 
         }
 
-        void push_edge(N node_1, N node_2, E weight = 0, bool dir = 0) {
+        void push_edge(N node_1, N node_2, E weight = 0) {
             NodeIte it1, it2;
             if (!find_node(node_1, it1) || !find_node(node_2, it2))
                 return;
@@ -52,12 +54,22 @@ class Graph {
             //TODO: corregir duplicados
         }
 
+        void push_edge(edge* new_edge) {
+            push_node(new_edge->first(), 0,0);// Añadir posiciones
+            find_node(new_edge->first(), ni);
+            (*ni)->addEdge(new_edge);
+
+            push_node(new_edge->second(), 0,0);// Añadir posiciones
+            find_node(new_edge->second(), ni);
+            if (!new_edge->isDir())
+                (*ni)->addEdge(new_edge);
+        }
+
         void remove_node(N data) {
-            NodeIte it;
-            if (!find_node(data, it))
+            if (!find_node(data, ni))
                 return;
-            node *ptr= *it;
-            nodes.erase(it);
+            node *ptr= *ni;
+            nodes.erase(ni);
             delete ptr;
         }
 
@@ -76,31 +88,99 @@ class Graph {
         }
 
         void print() {
-            for (auto it : nodes) {
+            for (auto&& it : nodes) {
                 cout << it->get_data() << endl;
                 for (auto e : it->edges)
-                    cout << "\t" << e->nodes[0]->get_data() << " " << e->nodes[1]->get_data() << endl;
+                    cout << "\t" << e->first() << " " << e->second() << endl;
             }
         }
 
         bool isConexo() {
-            for (auto&& it : nodes) {
-                if (it->edges.empty())
-                    return false
-            }   return true;
+            //Falta
         }
 
-        ~Graph() {
-            for (auto&& it : nodes) {
-                delete it;
-            }   nodes.clear();
+
+        void on_render(Interface &interface) {
+            for (auto&& it : nodes)
+                it->on_render(interface);
         }
+
+        Graph<Traits>* prim(N data) {
+            if (!find_node(data, ni))
+                exit(0);
+            
+            stack<edge*> p;
+        }
+
+        Graph<Traits>* kruskal() {
+            int size = nodes.size();
+
+            set<edge*, cmp> edges;
+
+            for(auto&& nit : nodes) {
+                for (auto&& eit : nit->edges)
+                    edges.insert(eit);
+            }
+            
+            Graph<Traits>* new_graph = new Graph<Traits>();
+            
+            auto e_it = edges.begin();
+
+            while(size > new_graph->nodes.size() && e_it != edges.end()) {
+                if (!new_graph->find((*e_it)->first()) || !new_graph->find((*e_it)->second()))
+                    new_graph->push_edge(*e_it);
+                ++e_it;
+            }
+            
+            edges.clear();
+
+            return new_graph;
+        }
+        
+        ~Graph() {
+            for (auto&& it : nodes)
+                delete it;
+            nodes.clear();
+        }
+
+        void dir_graph() {
+            dir = true;
+        }
+
+        bool is_dir() {
+            return dir;
+        }
+
+        bool find(N data) {
+            return find_node(data, ni);
+        }
+
+        bool find(N node_1, N node_2) {
+            NodeIte it_node_1, it_node_2;
+            if (!find_node(node_1, it_node_1) || !find_node(node_2, it_node_2))
+                return false;            
+            return find_edge(it_node_1, it_node_2, ei);
+        }
+
+        float density() {
+            int num_nodes, num_edges;
+            float d;
+            
+            for (auto n : nodes) {
+                ++num_nodes;
+                num_edges += n->edges.size();
+            }
+            
+            return num_edges / (num_nodes (num_nodes - 1));
+        }
+
+        NodeSeq nodes;
 
     private:
-        NodeSeq nodes;
         NodeIte ni;
         EdgeIte ei;
-
+        bool dir;
+        
         bool find_node(N data, NodeIte &it) {
             for (it = nodes.begin(); it != nodes.end(); ++it) {
                 if ((*it)->get_data() == data)
@@ -117,5 +197,12 @@ class Graph {
 };
 
 typedef Graph<Traits> graph;
+
+
+struct cmp {
+    bool operator() (Edge<graph> *lhs, Edge<graph> *rhs) const {
+        return lhs->get_data() < rhs->get_data();
+    }
+};
 
 #endif

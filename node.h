@@ -1,6 +1,6 @@
 #ifndef NODE_H
 #define NODE_H
-#include <iostream>
+#include <math.h>
 template <typename G>
 class Node {
     public:
@@ -22,8 +22,17 @@ class Node {
             data = new_data;
         }
 
+        Node(N new_data, double mx, double my) {
+            data = new_data;
+            x = mx;
+            y = my;
+        }
+
         void addEdge(edge *new_edge) {
-            edges.push_back(new_edge);
+            EdgeIte it;
+
+            if (!findEdge(new_edge, it))
+                edges.push_back(new_edge);
         }
 
         bool findEdge(edge *last_edge, EdgeIte &it) {
@@ -47,6 +56,10 @@ class Node {
                 it->edgePair(this)->removeEdge(it);
                 delete it;
             }   edges.clear();
+        }
+
+        void on_render(Interface &interface) {
+            interface.add_nodes(x, y);
         }
 };
 

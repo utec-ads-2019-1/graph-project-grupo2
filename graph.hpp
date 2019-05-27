@@ -7,8 +7,8 @@
 #include <algorithm>
 #include <iterator>
 
-#include "node.hpp"
-#include "edge.hpp"
+#include "node.h"
+#include "edge.h"
 
 
 class Traits {

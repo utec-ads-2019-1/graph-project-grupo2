@@ -4,6 +4,8 @@
 #include <vector>
 #include <list>
 #include <iostream>
+#include <map>
+#include <queue>
 #include <algorithm>
 #include <set>
 #include <stack>
@@ -46,6 +48,9 @@ class Graph {
             if (!find_node(node_1, it1) || !find_node(node_2, it2))
                 return;
             
+            if (find(node_1, node_2))
+                return;
+            
             edge *temp = new edge(*it1, *it2, weight, dir);
 
             (*it1)->addEdge(temp);
@@ -70,6 +75,7 @@ class Graph {
                 return;
             node *ptr= *ni;
             nodes.erase(ni);
+            //falta remover de anexos
             delete ptr;
         }
 
@@ -151,15 +157,15 @@ class Graph {
             return dir;
         }
 
-        bool find(N data) {
+        bool find(N data) {             //nodes
             return find_node(data, ni);
         }
 
-        bool find(N node_1, N node_2) {
+        bool find(N node_1, N node_2) { //edges
             NodeIte it_node_1, it_node_2;
             if (!find_node(node_1, it_node_1) || !find_node(node_2, it_node_2))
                 return false;            
-            return find_edge(it_node_1, it_node_2, ei);
+            return find_edge(*it_node_1, *it_node_2, ei);
         }
 
         float density() {
@@ -171,7 +177,87 @@ class Graph {
                 num_edges += n->edges.size();
             }
             
-            return num_edges / (num_nodes (num_nodes - 1));
+            return num_edges / (num_nodes * (num_nodes - 1));
+        }
+
+        void type_node(N data) {
+            if (!dir)
+                return;
+            
+            if (!find_node(data, ni))
+                return;
+            //falta
+        }
+
+        bool is_bipartito() {
+            map<N, E> reg;
+            queue<N> priority;
+
+            if (nodes.size() == 0)
+                return true;
+            
+            E color = 1;
+            node* temp;
+            priority.push(nodes[0]);
+            reg[nodes[0]] = color;
+
+            while(priority.size() > 0) {
+                reg[priority.front()] = color;
+                for (edge e : priority.front()->edges) {
+                    temp = e.edgePair(priority.front());
+                    if (reg[temp->get_data()] == 0)
+                        priority.push(temp);
+                    else {
+                        if (reg[temp->get_data()] != -color)
+                            return false;
+                    }
+                }
+                priority.pop();
+                color = -color;
+            }
+            return true;
+        }
+
+        bool DFS() {
+            map <N, bool> reg;
+            stack<node *> priority;
+            if (nodes.size() == 0)
+                return false;
+            
+            node *ptr, *temp;
+            priority.push(nodes[0]);
+
+            while (priority.size() > 0) {
+                ptr = priority.top();
+                reg[ptr] = 1;
+                priority.pop();
+                for (edge e : ptr->edges) {
+                    temp = e.edgePair(ptr);
+                    if (!reg[temp->get_data()])
+                        priority.push(temp);
+                }
+            }
+            return true;
+        }
+
+        bool BFS() {
+            map <N, bool> reg;
+            queue<node *> priority;
+            if (nodes.size() == 0)
+                return false;
+            
+            node *ptr, *temp;
+            priority.push(nodes[0]);
+
+            while (priority.size() > 0) {
+                reg[priority.front()] = 1;
+                for (edge e : priority.front()->edges) {
+                    temp = e.edgePair(priority.front());
+                    if (!reg[temp->get_data()])
+                        priority.push(temp);
+                }   priority.pop();
+            }
+            return true;
         }
 
         NodeSeq nodes;

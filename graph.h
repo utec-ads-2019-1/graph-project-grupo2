@@ -40,7 +40,6 @@ class Graph {
         void push_node(N data, double x, double y) {
             if (!find(data))
                 nodes.push_back(new node(data, x, y));
-                
         }
 
         void push_edge(N node_1, N node_2, E weight = 0) {
@@ -59,15 +58,25 @@ class Graph {
             //TODO: corregir duplicados
         }
 
-        void push_edge(edge* new_edge) {
-            push_node(new_edge->first(), 0,0);// Añadir posiciones
-            find_node(new_edge->first(), ni);
-            (*ni)->addEdge(new_edge);
+        void push_node(node *temp) {
+            if (!find(temp->get_data()))
+                nodes.push_back(new node(temp));
+        }
 
-            push_node(new_edge->second(), 0,0);// Añadir posiciones
-            find_node(new_edge->second(), ni);
+        void push_edge(edge* new_edge) {
+            NodeIte it1, it2;
+            push_node(new_edge->first_node());
+            push_node(new_edge->second_node());
+
+            find_node(new_edge->first(), it1);
+            find_node(new_edge->second(), it2);
+
+            edge *temp = new edge(*it1, *it2, new_edge->get_data(), new_edge->isDir());            
+
+            (*it1)->addEdge(new_edge);
+
             if (!new_edge->isDir())
-                (*ni)->addEdge(new_edge);
+                (*it2)->addEdge(new_edge);
         }
 
         void remove_node(N data) {
@@ -115,7 +124,7 @@ class Graph {
             if (!find_node(data, ni))
                 exit(0);
             
-            stack<edge*> p;
+            set<edge*, cmp> edges;
         }
 
         Graph<Traits>* kruskal() {
@@ -174,10 +183,15 @@ class Graph {
             
             for (auto n : nodes) {
                 ++num_nodes;
-                num_edges += n->edges.size();
+                num_edges += n->degree();
             }
             
             return num_edges / (num_nodes * (num_nodes - 1));
+        }
+
+        void node_degree(N data) {
+            find_node(data, ni);
+            return ni->degee();
         }
 
         void type_node(N data) {

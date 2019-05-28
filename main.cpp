@@ -15,19 +15,19 @@ int main(int argc, char *argv[]) {
     grafo.push_node('C', 300, 300);
     grafo.push_node('D', 300, 300);
     grafo.push_edge('A', 'B', 2);
-    grafo.push_edge('B', 'C', 5);
+    grafo.push_edge('C', 'D', 5);
     grafo.remove_edge('C', 'B');
-    grafo.push_edge('B', 'C', 1);
+    grafo.push_edge('A', 'C', 10);
     grafo.push_edge('D', 'C', 3);
     grafo.push_edge('D', 'B', 10);
     grafo.print();
     
     grafo.on_render(interface);
 
-    cout << "Prim" << endl;
+    cout << "kruskal" << endl;
     prim = grafo.kruskal();
     prim->print();
-    
+
     //interface.init(argc, argv);
     //interface.display_func();
 

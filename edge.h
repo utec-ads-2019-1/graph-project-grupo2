@@ -37,8 +37,17 @@ class Edge {
             return nodes[0]->get_data();
         }
 
+
         N second() {
             return nodes[1]->get_data();
+        }
+
+        node* first_node() {
+            return nodes[0];
+        }
+
+        node* second_node() {
+            return nodes[1];
         }
 
         node* edgePair(node* ptr) {

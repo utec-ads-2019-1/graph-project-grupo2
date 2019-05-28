@@ -7,6 +7,7 @@ class Node {
         typedef typename G::N N;
         typedef typename G::E E;
         typedef typename G::edge edge;
+        typedef typename G::node node;
         typedef typename G::EdgeSeq EdgeSeq;
         typedef typename G::EdgeIte EdgeIte;
 
@@ -26,6 +27,12 @@ class Node {
             data = new_data;
             x = mx;
             y = my;
+        }
+
+        Node(node *new_node) {
+            data = new_node->get_data();
+            x = new_node->get_pos_x();
+            y = new_node->get_pos_y();
         }
 
         void addEdge(edge *new_edge) {
@@ -49,6 +56,18 @@ class Node {
 
         N get_data() {
             return data;
+        }
+
+        E get_pos_x() {
+            return x;
+        }
+
+        E get_pos_y() {
+            return y;
+        }
+
+        E degree() {
+            return edges.size();
         }
 
         ~Node() {

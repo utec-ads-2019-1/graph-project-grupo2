@@ -128,10 +128,9 @@ class Graph {
         }
 
         Graph<Traits>* kruskal() {
-            int size = nodes.size();
-
             set<edge*, cmp> edges;
-
+            map<N, N> reg;
+            
             for(auto&& nit : nodes) {
                 for (auto&& eit : nit->edges)
                     edges.insert(eit);
@@ -141,15 +140,43 @@ class Graph {
             
             auto e_it = edges.begin();
 
-            while(size > new_graph->nodes.size() && e_it != edges.end()) {
+            while(e_it != edges.end()) {
+                if (disjoint_set(reg, (*e_it)->first(), (*e_it)->second()))
+                    new_graph->push_edge(*e_it);
+                /*
                 if (!new_graph->find((*e_it)->first()) || !new_graph->find((*e_it)->second()))
                     new_graph->push_edge(*e_it);
+                */
                 ++e_it;
             }
             
             edges.clear();
 
             return new_graph;
+        }
+
+        bool disjoint_set(map<N, N> &reg, N data_1, N data_2) {
+            N par_1 = get_parent(reg, data_1);
+            N par_2 = get_parent(reg, data_2);
+            
+            if (par_1 != par_2)
+                reg[data_1] = par_2;
+            
+            return par_1 != par_2;
+        }
+
+        N get_parent(map<N, N> &reg, N data) {
+            if (reg[data] == 0) {
+                reg[data] = data;
+                return data;
+            }
+
+            N temp = data;
+            
+            while(temp == reg[temp])
+                temp = reg[temp];
+            reg[data] = temp;
+            return temp;
         }
         
         ~Graph() {
@@ -173,7 +200,7 @@ class Graph {
         bool find(N node_1, N node_2) { //edges
             NodeIte it_node_1, it_node_2;
             if (!find_node(node_1, it_node_1) || !find_node(node_2, it_node_2))
-                return false;            
+                return false;
             return find_edge(*it_node_1, *it_node_2, ei);
         }
 
@@ -184,8 +211,7 @@ class Graph {
             for (auto n : nodes) {
                 ++num_nodes;
                 num_edges += n->degree();
-            }
-            
+            }            
             return num_edges / (num_nodes * (num_nodes - 1));
         }
 

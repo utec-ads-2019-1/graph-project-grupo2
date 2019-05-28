@@ -7,7 +7,9 @@ template <typename G>
 class Edge {
     public:
         typedef typename G::E E;
+        typedef typename G::N N;
         typedef typename G::node node;
+        typedef typename G::edge edge;
 
         node* nodes[2];
 
@@ -23,8 +25,29 @@ class Edge {
             dir = is_dir;
         }
 
+        E get_data() {
+            return data;
+        }
+
         bool isDir() {
             return dir;
+        }
+
+        N first() {
+            return nodes[0]->get_data();
+        }
+
+
+        N second() {
+            return nodes[1]->get_data();
+        }
+
+        node* first_node() {
+            return nodes[0];
+        }
+
+        node* second_node() {
+            return nodes[1];
         }
 
         node* edgePair(node* ptr) {

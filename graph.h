@@ -37,6 +37,7 @@ class Graph {
         typedef typename EdgeSeq::iterator EdgeIte;
 
         Graph() { dir = false; }
+
         void push_node(N data, double x, double y) {
             if (!find(data))
                 nodes.push_back(new node(data, x, y));
@@ -73,10 +74,12 @@ class Graph {
 
             edge *temp = new edge(*it1, *it2, new_edge->get_data(), new_edge->isDir());            
 
-            (*it1)->addEdge(new_edge);
+            (*it1)->addEdge(temp);
 
             if (!new_edge->isDir())
-                (*it2)->addEdge(new_edge);
+                (*it2)->addEdge(temp);
+
+            //Corregir duplicados
         }
 
         void remove_node(N data) {
@@ -127,56 +130,38 @@ class Graph {
             set<edge*, cmp> edges;
         }
 
-        Graph<Traits>* kruskal() {
+        self* kruskal() {
             set<edge*, cmp> edges;
             map<N, N> reg;
             
             for(auto&& nit : nodes) {
+                reg[nit->get_data()] = 0;
                 for (auto&& eit : nit->edges)
                     edges.insert(eit);
             }
-            
-            Graph<Traits>* new_graph = new Graph<Traits>();
-            
-            auto e_it = edges.begin();
 
-            while(e_it != edges.end()) {
-                if (disjoint_set(reg, (*e_it)->first(), (*e_it)->second()))
-                    new_graph->push_edge(*e_it);
-                /*
-                if (!new_graph->find((*e_it)->first()) || !new_graph->find((*e_it)->second()))
-                    new_graph->push_edge(*e_it);
-                */
-                ++e_it;
+            self* new_graph = new self;
+            
+            for (auto it : edges) {
+                if (disjoint_set(reg, it->first(), it->second()))
+                    new_graph->push_edge(it);
+            }
+
+            for (auto n : reg) {
+                cout << n.first << " " << n.second << endl;
+            }
+
+            if (reg.size() > new_graph->count_nodes()) {
+                for (auto it : reg) {
+                    if (it.second == 0)
+                        new_graph->push_node(it.first, 0, 0);   //arreglar pos
+                }
             }
             
             edges.clear();
+            reg.clear();
 
             return new_graph;
-        }
-
-        bool disjoint_set(map<N, N> &reg, N data_1, N data_2) {
-            N par_1 = get_parent(reg, data_1);
-            N par_2 = get_parent(reg, data_2);
-            
-            if (par_1 != par_2)
-                reg[data_1] = par_2;
-            
-            return par_1 != par_2;
-        }
-
-        N get_parent(map<N, N> &reg, N data) {
-            if (reg[data] == 0) {
-                reg[data] = data;
-                return data;
-            }
-
-            N temp = data;
-            
-            while(temp == reg[temp])
-                temp = reg[temp];
-            reg[data] = temp;
-            return temp;
         }
         
         ~Graph() {
@@ -258,46 +243,70 @@ class Graph {
             return true;
         }
 
-        bool DFS() {
+        self* DFS() {
             map <N, bool> reg;
             stack<node *> priority;
+            
+            self *new_graph = new self;
+
             if (nodes.size() == 0)
-                return false;
+                return new_graph;
             
             node *ptr, *temp;
+            edge *pointer;
             priority.push(nodes[0]);
-
+            
             while (priority.size() > 0) {
                 ptr = priority.top();
-                reg[ptr] = 1;
+                reg[ptr->get_data()] = 1;
+                cout << "first "  <<ptr->get_data()<< endl;
                 priority.pop();
-                for (edge e : ptr->edges) {
-                    temp = e.edgePair(ptr);
-                    if (!reg[temp->get_data()])
+                for (auto e : ptr->edges) {
+                    temp = e->edgePair(ptr);
+                    if (!reg[temp->get_data()]) {
                         priority.push(temp);
+                        cout << "second "  <<temp->get_data()<< endl;
+                //        reg[temp->get_data()] = 1;
+                        pointer = e;
+                    }
+                }
+                if (temp && pointer) {
+                    new_graph->push_edge(pointer);
+                } else {
+                    temp = nullptr;   
+                    pointer = nullptr;
                 }
             }
-            return true;
+            return new_graph;
         }
 
-        bool BFS() {
+        self* BFS() {
             map <N, bool> reg;
             queue<node *> priority;
+            self *new_graph = new self;
+
             if (nodes.size() == 0)
-                return false;
-            
+                return new_graph;
+
             node *ptr, *temp;
             priority.push(nodes[0]);
+            reg[nodes[0]->get_data()] = 1;
 
-            while (priority.size() > 0) {
-                reg[priority.front()] = 1;
-                for (edge e : priority.front()->edges) {
-                    temp = e.edgePair(priority.front());
-                    if (!reg[temp->get_data()])
+            while (priority.size() > 0) {             
+                for (auto e : priority.front()->edges) {
+                    temp = e->edgePair(priority.front());
+                    if (!reg[temp->get_data()]) {
                         priority.push(temp);
+                        new_graph->push_edge(e);
+                        reg[temp->get_data()] = 1;
+                    }
                 }   priority.pop();
             }
-            return true;
+            return new_graph;
+        }
+
+        E count_nodes() {
+            return nodes.size();
         }
 
         NodeSeq nodes;
@@ -320,6 +329,30 @@ class Graph {
                     return true;
             }   return false;
         }
+
+        bool disjoint_set(map<N, N> &reg, N data_1, N data_2) {
+            N par_1 = get_parent(reg, data_1);
+            N par_2 = get_parent(reg, data_2);
+            
+            if (par_1 != par_2)
+                reg[par_1] = par_2;
+            
+            return par_1 != par_2;
+        }
+
+        N get_parent(map<N, N> &reg, N data) {
+            if (reg[data] == 0) {
+                reg[data] = data;
+                return data;
+            }
+
+            N temp = data;
+            
+            while(temp != reg[temp])
+                temp = reg[temp];
+            reg[data] = temp;
+            return temp;
+        }
 };
 
 typedef Graph<Traits> graph;
@@ -327,6 +360,12 @@ typedef Graph<Traits> graph;
 
 struct cmp {
     bool operator() (Edge<graph> *lhs, Edge<graph> *rhs) const {
+        if (lhs->get_data() == rhs->get_data()) {
+            if (lhs->first() == rhs->first())
+                return lhs->second() < rhs->second();
+            else
+                return lhs->first() < rhs->first();
+        }
         return lhs->get_data() < rhs->get_data();
     }
 };

@@ -33,8 +33,8 @@ std::vector<std::pair<double, double>> nodes_obj;
 std::vector<std::pair<double, double>> edges_obj;
 double ratio;
 
-Interface::Interface(int i_pos_x, int i_pos_y, int i_size_x, int i_size_y) 
-: pos_x(i_pos_x), pos_y(i_pos_y), size_x(i_size_x), size_y(i_size_y) {
+Interface::Interface(int i_pos_x, int i_pos_y, int i_size_x, int i_size_y)
+        : pos_x(i_pos_x), pos_y(i_pos_y), size_x(i_size_x), size_y(i_size_y) {
     ratio = size_x /size_y;
 }
 
@@ -43,11 +43,11 @@ Interface::~Interface() {
 
 void Interface::init(int &argc, char *argv[]) {
     glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowPosition(pos_x, pos_y);
-	glutInitWindowSize(size_x, size_y);
-	glutCreateWindow("Graph");
-    
+    glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+    glutInitWindowPosition(pos_x, pos_y);
+    glutInitWindowSize(size_x, size_y);
+    glutCreateWindow("Graph");
+
 }
 
 void Interface::display_func() {
@@ -66,13 +66,13 @@ void Interface::add_edges(double x, double y) {
 
 void Interface::display_obj() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+
     for (auto obj : nodes_obj) {
         draw_circle(obj.first, obj.second);
         std::cout << obj.first / ratio << " " << obj.second / ratio << std::endl;
     }
 
-    glutSwapBuffers();    
+    glutSwapBuffers();
 }
 
 void draw_circle(double x, double y) {
@@ -87,25 +87,25 @@ void draw_circle(double x, double y) {
 
 void changeSize(int w, int h) {
 
-	// Prevent a divide by zero, when window is too short
-	// (you cant make a window of zero width).
-	if (h == 0)
-		h = 1;
+    // Prevent a divide by zero, when window is too short
+    // (you cant make a window of zero width).
+    if (h == 0)
+        h = 1;
 
-	ratio =  w * 1.0 / h;
+    ratio =  w * 1.0 / h;
 
-	// Use the Projection Matrix
-	glMatrixMode(GL_PROJECTION);
+    // Use the Projection Matrix
+    glMatrixMode(GL_PROJECTION);
 
-	// Reset Matrix
-	glLoadIdentity();
+    // Reset Matrix
+    glLoadIdentity();
 
-	// Set the viewport to be the entire window
-	glViewport(0, 0, w, h);
+    // Set the viewport to be the entire window
+    glViewport(0, 0, w, h);
 
-	// Set the correct perspective.
-	gluPerspective(45,ratio,1,100);
+    // Set the correct perspective.
+    gluPerspective(45,ratio,1,100);
 
-	// Get Back to the Modelview
-	glMatrixMode(GL_MODELVIEW);
+    // Get Back to the Modelview
+    glMatrixMode(GL_MODELVIEW);
 }

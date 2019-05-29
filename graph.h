@@ -43,6 +43,11 @@ class Graph {
                 nodes.push_back(new node(data, x, y));
         }
 
+    void push_node(N data) {
+        if (!find(data))
+            nodes.push_back(new node(data));
+    }
+
         void push_edge(N node_1, N node_2, E weight = 0) {
             NodeIte it1, it2;
             if (!find_node(node_1, it1) || !find_node(node_2, it2))
@@ -115,13 +120,14 @@ class Graph {
 
         bool isConexo() {
             //Falta
+
         }
 
 
-        void on_render(Interface &interface) {
-            for (auto&& it : nodes)
-                it->on_render(interface);
-        }
+//        void on_render(Interface &interface) {
+//            for (auto&& it : nodes)
+//                it->on_render(interface);
+//        }
 
         Graph<Traits>* prim(N data) {
             if (!find_node(data, ni))

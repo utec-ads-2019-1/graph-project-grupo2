@@ -1,6 +1,5 @@
 #include <GL/glut.h>
 #include <iostream>
-#include "interface.h"
 #include "graph.h"
 
 using namespace std;
@@ -8,17 +7,17 @@ using namespace std;
 int main(int argc, char *argv[]) {
     graph grafo;
     graph *kruskal, *bfs, *dfs;
-    Interface interface(10, 10, 1280, 720);
+    //Interface interface(10, 10, 1280, 720);
 
-    grafo.push_node('A', 200, 200);
-    grafo.push_node('B', 100, 100);
-    grafo.push_node('C', 300, 300);
-    grafo.push_node('D', 300, 300);
-    grafo.push_node('E', 100, 100);
-    grafo.push_node('F', 100, 100);
-    grafo.push_node('G', 100, 100);
-    grafo.push_node('H', 100, 100);
-    grafo.push_node('I', 100, 100);
+    grafo.push_node('A');
+    grafo.push_node('B');
+    grafo.push_node('C');
+    grafo.push_node('D');
+    grafo.push_node('E');
+    grafo.push_node('F');
+    grafo.push_node('G');
+    grafo.push_node('H');
+    grafo.push_node('I');
 
     grafo.push_edge('A', 'B');
     grafo.push_edge('A', 'C');

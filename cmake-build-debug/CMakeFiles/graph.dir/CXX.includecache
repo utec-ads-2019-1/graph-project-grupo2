@@ -34,23 +34,11 @@ node.h
 edge.h
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/edge.h
 
-/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/interface.h
-GL/glut.h
--
-iostream
--
-vector
--
-math.h
--
-
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/main.cpp
 GL/glut.h
 -
 iostream
 -
-interface.h
-/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/interface.h
 graph.h
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/graph.h
 

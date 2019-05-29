@@ -98,9 +98,6 @@
 		<Unit filename="/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/graph.hpp">
 			<Option target="graph"/>
 		</Unit>
-		<Unit filename="/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/interface.h">
-			<Option target="graph"/>
-		</Unit>
 		<Unit filename="/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/main.cpp">
 			<Option target="graph"/>
 		</Unit>

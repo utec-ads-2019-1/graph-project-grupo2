@@ -1,13 +1,12 @@
 #ifndef NODE_H
 #define NODE_H
-#include <math.h>
+#include <iostream>
 template <typename G>
 class Node {
     public:
         typedef typename G::N N;
         typedef typename G::E E;
         typedef typename G::edge edge;
-        typedef typename G::node node;
         typedef typename G::EdgeSeq EdgeSeq;
         typedef typename G::EdgeIte EdgeIte;
 
@@ -23,23 +22,8 @@ class Node {
             data = new_data;
         }
 
-        Node(N new_data, double mx, double my) {
-            data = new_data;
-            x = mx;
-            y = my;
-        }
-
-        Node(node *new_node) {
-            data = new_node->get_data();
-            x = new_node->get_pos_x();
-            y = new_node->get_pos_y();
-        }
-
         void addEdge(edge *new_edge) {
-            EdgeIte it;
-
-            if (!findEdge(new_edge, it))
-                edges.push_back(new_edge);
+            edges.push_back(new_edge);
         }
 
         bool findEdge(edge *last_edge, EdgeIte &it) {
@@ -58,28 +42,12 @@ class Node {
             return data;
         }
 
-        E get_pos_x() {
-            return x;
-        }
-
-        E get_pos_y() {
-            return y;
-        }
-
-        E degree() {
-            return edges.size();
-        }
-
         ~Node() {
             for (auto&& it : edges) {
                 it->edgePair(this)->removeEdge(it);
                 delete it;
             }   edges.clear();
         }
-
-//        void on_render(Interface &interface) {
-//            interface.add_nodes(x, y);
-//        }
 };
 
 #endif

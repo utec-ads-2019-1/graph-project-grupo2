@@ -13,6 +13,4 @@ add_executable(graph
         node.h
         read.hpp
         disjoin
-        interface.h
-
         )

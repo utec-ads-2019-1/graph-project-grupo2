@@ -15,8 +15,11 @@ class Edge {
         E data;
         bool dir;
 
+		friend class Kruskal;
+		friend class Prim;
+
 	public:
-		Edge(node *n1, node *n2, bool dir) : dir(dir)
+		Edge(node *n1, node *n2, E data, bool dir) : dir(dir), data(data)
 		{
 			nodes[0] = n1;
 			nodes[1] = n2;

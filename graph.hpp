@@ -35,6 +35,9 @@ class Graph {
 		EdgeSeq edges;
         NodeIte ni;
         EdgeIte ei;
+
+		friend class Kruskal;
+		friend class Prim;
 	
 	public:
 		Graph()
@@ -46,15 +49,13 @@ class Graph {
 		{
 			// TODO
 		}
-
 		
 		void add_node(N data)
 		{
 			node* newNode;
 			NodeIte it;
 
-			it = node_exists(data);
-			if (it == nodes.end())
+			if (it = node_exists(data); it == nodes.end())
 			{
 				newNode = new node(data);
 				nodes.push_back(newNode);
@@ -65,11 +66,7 @@ class Graph {
 		{
 			NodeIte it;
 
-			it = node_exists(data);
-			if (it == nodes.end())
-			{
-				return;
-			}
+			if (it = node_exists(data); it == nodes.end()) 				return;
 			else
 			{
 				for (auto i = edges.begin(); i != edges.end(); ++i)
@@ -84,40 +81,26 @@ class Graph {
 			}
 		}
 
-		void add_edge(N node1, N node2, bool dir)
+		void add_edge(N node1, N node2, E data, bool dir)
 		{
 			edge *newEdge1, *newEdge2;
 			NodeIte it1, it2;
 			EdgeIte it3;
-			/*
-			 * Check nodes existence
-			 */
-			it1 = node_exists(node1);
-			if (it1 == nodes.end())
-			{
-				return;
-			}
-			it2 = node_exists(node2);
-			if (it2 == nodes.end())
-			{
-				return;
-			}
-			/*
-			 * Check if this edge already exists
-			 */
-			it3 = edge_exists(node1, node2);
-			if (it3 != edges.end())
-			{
-				return;
-			}
+			
+			if (it1 = node_exists(node1); it1 == nodes.end()) 			return;
+			if (it2 = node_exists(node2); it2 == nodes.end()) 			return;
+			if (it3 = edge_exists(node1, node2); it3 != edges.end()) 	return;
 			else
 			{
-				newEdge1 = new edge(*it1, *it2, dir);
+				newEdge1 = new edge(*it1, *it2, data, dir);
 				edges.push_back(newEdge1);
+
+				(*it1)->edges.push_back(newEdge1);
 				if (dir)
 				{
-					newEdge2 = new edge(*it2, *it1, dir);
+					newEdge2 = new edge(*it2, *it1, data, dir);
 					edges.push_back(newEdge2);
+					(*it2)->edges.push_back(newEdge2);
 				}
 			}
 		}
@@ -127,41 +110,25 @@ class Graph {
 			NodeIte it1, it2;
 			EdgeIte it3;
 
-			it1 = node_exists(n1);
-			if (it1 == nodes.end())
-			{
-				return;
-			}
-			it2 = node_exists(n2);
-			if (it2 == nodes.end())
-			{
-				return;
-			}
-			it3 = edge_exists(n1, n2);
-			if (it3 != edges.end())
-			{
+			if (it1 = node_exists(n1); it1 == nodes.end()) 				return;
+			if (it2 = node_exists(n2); it2 == nodes.end()) 				return;
+			if (it3 = edge_exists(n1, n2); it3 != edges.end())
 				edges.erase(it3);
-			}
 		}
 
 		void print_nodes()
 		{
 			std::cout << "Nodes:\n";
-			for (auto i : nodes)
-			{
-				std::cout << i->get_data() << '\n'; 
-			}
+			for (auto node : nodes)
+				std::cout << node->get_data() << '\n'; 
 		}
 
 		void print_edges()
 		{
 			std::cout << "Edges:\n";
-			for (auto i : edges)
-			{
-				std::cout << 
-					i->nodes[0]->get_data() << ' ' << i->nodes[1]->get_data() 
-					<< '\n';
-			}
+			for (auto edge : edges)
+				std::cout << edge->nodes[0]->get_data() << ' ' <<
+				   	edge->nodes[1]->get_data() << '\n';
 		}
 
 	private:
@@ -169,8 +136,7 @@ class Graph {
 		{
 			return std::find_if
 				(
-					nodes.begin(),
-					nodes.end(),
+					nodes.begin(), nodes.end(),
 					[data](node *obj) -> bool
 					{
 						return obj->get_data() == data;
@@ -182,8 +148,7 @@ class Graph {
 		{
 			return std::find_if
 				(
-					edges.begin(),
-					edges.end(),
+					edges.begin(), edges.end(),
 					[node1, node2](edge *obj) -> bool
 					{
 						return obj->nodes[0]->get_data() == node1 &&
@@ -195,5 +160,11 @@ class Graph {
 };
 
 typedef Graph<Traits> graph;
+using NodeSeq = typename Graph<Traits>::NodeSeq;
+using EdgeSeq = typename Graph<Traits>::EdgeSeq;
+using node = typename Graph<Traits>::node;
+using edge = typename Graph<Traits>::edge;
+using N = typename Graph<Traits>::N;
+using E = typename Graph<Traits>::E;
 
 #endif

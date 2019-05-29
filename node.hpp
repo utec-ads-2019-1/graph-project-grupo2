@@ -16,6 +16,8 @@ class Node {
         double x;
         double y;
 
+		friend class Prim;
+
 	public:
 		Node(N data) : data(data)
 		{

@@ -38,6 +38,11 @@ class Graph {
 
         Graph() { dir = false; }
 
+        void push_node(N data) {
+            if (!find(data))
+                nodes.push_back(new node(data));
+        }
+
         void push_node(N data, double x, double y) {
             if (!find(data))
                 nodes.push_back(new node(data, x, y));
@@ -131,8 +136,8 @@ class Graph {
         }
 
         self* kruskal() {
-            set<edge*, cmp> edges;
             map<N, N> reg;
+            set<edge*, cmp> edges;
             
             for(auto&& nit : nodes) {
                 reg[nit->get_data()] = 0;
@@ -147,16 +152,13 @@ class Graph {
                     new_graph->push_edge(it);
             }
 
-            for (auto n : reg) {
-                cout << n.first << " " << n.second << endl;
-            }
-
+            /*
             if (reg.size() > new_graph->count_nodes()) {
                 for (auto it : reg) {
                     if (it.second == 0)
                         new_graph->push_node(it.first, 0, 0);   //arreglar pos
                 }
-            }
+            }*/
             
             edges.clear();
             reg.clear();
@@ -245,39 +247,52 @@ class Graph {
 
         self* DFS() {
             map <N, bool> reg;
-            stack<node *> priority;
             
+            stack<node*> priority;
+
             self *new_graph = new self;
 
             if (nodes.size() == 0)
                 return new_graph;
-            
-            node *ptr, *temp;
-            edge *pointer;
+
+            node *ptr;
+            node *temp, *test;
+            int count;
             priority.push(nodes[0]);
-            
+            reg[nodes[0]->get_data()] = 1;
             while (priority.size() > 0) {
+                count = 0;
                 ptr = priority.top();
-                reg[ptr->get_data()] = 1;
                 cout << "first "  <<ptr->get_data()<< endl;
-                priority.pop();
+                
                 for (auto e : ptr->edges) {
                     temp = e->edgePair(ptr);
-                    if (!reg[temp->get_data()]) {
+                    if (reg[temp->get_data()] == 0) {
+                        reg[temp->get_data()] = 1;
                         priority.push(temp);
+                        new_graph->push_edge(e);
                         cout << "second "  <<temp->get_data()<< endl;
-                //        reg[temp->get_data()] = 1;
-                        pointer = e;
+                        ++count;
+                        break;
                     }
                 }
-                if (temp && pointer) {
-                    new_graph->push_edge(pointer);
-                } else {
-                    temp = nullptr;   
-                    pointer = nullptr;
+                if (count == 0) {
+                    priority.pop();
                 }
             }
+            /*
+            */
             return new_graph;
+        }
+
+        set<edge*, cmp>* set_egdes() {
+            set<edge*, cmp> *edges;
+            
+            for(auto&& nit : nodes) {
+                for (auto&& eit : nit->edges)
+                    edges->insert(eit);
+            }
+            return edges;
         }
 
         self* BFS() {

@@ -152,7 +152,7 @@ class Graph {
                     new_graph->push_edge(it);
             }
 
-            /*
+            /*  En el caso que se quiera incorporar los nodos aislados
             if (reg.size() > new_graph->count_nodes()) {
                 for (auto it : reg) {
                     if (it.second == 0)
@@ -255,15 +255,15 @@ class Graph {
             if (nodes.size() == 0)
                 return new_graph;
 
-            node *ptr;
-            node *temp, *test;
+            node *ptr, *temp;
             int count;
+
             priority.push(nodes[0]);
             reg[nodes[0]->get_data()] = 1;
+            
             while (priority.size() > 0) {
                 count = 0;
                 ptr = priority.top();
-                cout << "first "  <<ptr->get_data()<< endl;
                 
                 for (auto e : ptr->edges) {
                     temp = e->edgePair(ptr);
@@ -271,7 +271,6 @@ class Graph {
                         reg[temp->get_data()] = 1;
                         priority.push(temp);
                         new_graph->push_edge(e);
-                        cout << "second "  <<temp->get_data()<< endl;
                         ++count;
                         break;
                     }
@@ -280,19 +279,7 @@ class Graph {
                     priority.pop();
                 }
             }
-            /*
-            */
             return new_graph;
-        }
-
-        set<edge*, cmp>* set_egdes() {
-            set<edge*, cmp> *edges;
-            
-            for(auto&& nit : nodes) {
-                for (auto&& eit : nit->edges)
-                    edges->insert(eit);
-            }
-            return edges;
         }
 
         self* BFS() {

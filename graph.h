@@ -34,6 +34,14 @@ class Traits {
 		typedef int E;
 };
 
+enum tipo_nodo {
+    Fuente,
+    Hundido,
+    Aislado,
+    Hoja,
+    Normal
+};
+
 struct cmp;
 
 template <typename Tr>
@@ -208,18 +216,51 @@ class Graph {
             return nodes.size();
         }
 
-        void node_degree(N data) {
+        int node_degree(N data) {
+            if (dir)
+                return degree_in(data) + degree_out(data);
+            return degree_out(data);
+        }
+
+        int degree_in(N data) {
+            if (!dir)
+                return;
+            int count = 0;
+            for (auto eit : list_edges()) {
+                if (eit->second() == data)
+                    ++count;
+            }
+            return count;
+        }
+
+        int degree_out(N data) {
+            if (!dir)
+                return;
             findNode(data, ni);
             return ni->degee();
         }
-
-        void type_node(N data) {
-            if (!dir)
-                return;
+        
+        int type_node(N data) {
+            if (!dir) {
+                switch (node_degree(data)) {
+                case 0: return Aislado;
+                case 1: return Hoja;
+                default: return Normal;
+                }
+            }
             
             if (!findNode(data, ni))
                 return;
-            //falta
+            
+            if (degree_in() != 0) {
+                if (degree_out() == 0)
+                    return Hundido;                    
+            } else {
+                if (degree_out() != 0)
+                    return Fuente;
+                else
+                    return Aislado;
+            } return Normal;            
         }
 
         bool is_bipartito() {

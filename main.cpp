@@ -8,7 +8,6 @@ using namespace std;
 int main(int argc, char *argv[]) {
     graph grafo;
     graph *kruskal, *prim, *bfs, *dfs;
-    Interface interface(10, 10, 1280, 720);
 
     grafo.push_node('A');
     grafo.push_node('B');
@@ -53,14 +52,7 @@ int main(int argc, char *argv[]) {
     prim = grafo.prim();
     prim->print();
 
-    //interface.init(argc, argv);
-    //interface.display_func();
-
-    
-
-    //glutMainLoop ();
     //g++ graph.h node.h edge.h main.cpp -o main -lGL -lGLU -lglut
-
 
     return EXIT_SUCCESS;
 }

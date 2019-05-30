@@ -52,6 +52,8 @@ int main(int argc, char *argv[]) {
     prim = grafo.prim();
     prim->print();
 
+    grafo.is_strongly_connected();
+
     //g++ graph.h node.h edge.h main.cpp -o main -lGL -lGLU -lglut
 
     return EXIT_SUCCESS;

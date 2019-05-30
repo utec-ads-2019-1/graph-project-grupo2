@@ -65,37 +65,44 @@ class Graph {
             nodes.clear();
         }
 
-        void push_node(N data) {
-            if (!find_node(data))
+        bool push_node(N data) {
+            if (!find_node(data)){
                 nodes.push_back(new node(data));
+                return 1;
+            }   return 0;
         }
 
-        void push_node(N data, double x, double y) {
-            if (!find_node(data))
+        bool push_node(N data, double x, double y) {
+            if (!find_node(data)) {
                 nodes.push_back(new node(data, x, y));
+                return 1;
+            }   return 0;
         }
 
-        void push_node(node *temp) {
-            if (!find_node(temp->get_data()))
+        bool push_node(node *temp) {
+            if (!find_node(temp->get_data())) {
                 nodes.push_back(new node(temp));
+                return 1;
+            }   return 0;
         }
         
-        void push_edge(N node_1, N node_2, E weight = 0) {
+        bool push_edge(N node_1, N node_2, E weight = 0) {
             NodeIte it1, it2;
             if (!findNode(node_1, it1) || !findNode(node_2, it2))
-                return;
+                return 0;
             
             if (findEdge(*it1, *it2, ei))
-                return;
+                return 0;
 
             edge *temp = new edge(*it1, *it2, weight, dir);
 
             (*it1)->addEdge(temp);
             if (!dir)
                 (*it2)->addEdge(temp);
+            return 1;
         }
 
-        void push_edge(edge* new_edge) {
+        bool push_edge(edge* new_edge) {
             NodeIte it1, it2;
             push_node(new_edge->first_node());
             push_node(new_edge->second_node());
@@ -104,7 +111,7 @@ class Graph {
             findNode(new_edge->second(), it2);
 
             if (findEdge(*it1, *it2, ei))
-                return;
+                return 0;
             
             edge *temp = new edge(*it1, *it2, new_edge->get_data(), new_edge->isDir());            
             
@@ -112,11 +119,12 @@ class Graph {
 
             if (!new_edge->isDir())
                 (*it2)->addEdge(temp);
+            return 1;
         }
 
-        void remove_node(N data) {
+        bool remove_node(N data) {
             if (!findNode(data, ni))
-                return;
+                return 0;
             node *ptr= *ni;
             nodes.erase(ni);
             
@@ -129,20 +137,22 @@ class Graph {
             }
             
             delete ptr;
+            return 1;
         }
 
-        void remove_edge(N node_1, N node_2) {
+        bool remove_edge(N node_1, N node_2) {
             NodeIte it_node_1, it_node_2;
             EdgeIte it_edge;
             if (!findNode(node_1, it_node_1) || !findNode(node_2, it_node_2))
-                return;
+                return 0;
             if (!findEdge(*it_node_1, *it_node_2, it_edge))
-                return;
+                return 0;
             
             (*it_node_1)->removeEdge(*it_edge);
             
             if (!(*it_edge)->isDir()) 
                 (*it_node_2)->removeEdge(*it_edge);
+            return 1;
         }
 
         bool find_node(N data) {
@@ -193,8 +203,20 @@ class Graph {
             return parents.size() == 1;
         }
 
-        void dir_graph() {
+        bool is_strongly_connected() {
+            self *dfs = DFS();
+
+            for (auto eit : dfs->list_edges()) {
+                eit->swap_nodes();
+            }
+            self *temp = dfs->DFS();
+
+            return temp->count_nodes() != dfs->count_nodes();
+        }
+
+        bool dir_graph() {
             dir = true;
+            return dir;
         }
 
         bool is_dir() {
@@ -224,7 +246,7 @@ class Graph {
 
         int degree_in(N data) {
             if (!dir)
-                return;
+                return 0;
             int count = 0;
             for (auto eit : list_edges()) {
                 if (eit->second() == data)
@@ -235,7 +257,7 @@ class Graph {
 
         int degree_out(N data) {
             if (!dir)
-                return;
+                return 0;
             findNode(data, ni);
             return ni->degee();
         }
@@ -250,7 +272,7 @@ class Graph {
             }
             
             if (!findNode(data, ni))
-                return;
+                return 0;
             
             if (degree_in() != 0) {
                 if (degree_out() == 0)

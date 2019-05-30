@@ -2,6 +2,7 @@
 #define EDGE_H
 
 #include "node.h"
+#include <iostream>
 
 template <typename G>
 class Edge {
@@ -50,6 +51,10 @@ class Edge {
             return nodes[1];
         }
 
+        void swap_nodes() {
+            std::swap(nodes[0], nodes[1]);
+        }
+ 
         node* edgePair(node* ptr) {
             return ptr == nodes[0] ? nodes[1] : nodes[0];
         }

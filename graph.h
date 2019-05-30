@@ -15,6 +15,19 @@
 
 using namespace std;
 
+#ifndef NDEBUG
+#   define ASSERT(condition, message) \
+    do { \
+        if (! (condition)) { \
+            std::cerr << "Assertion `" #condition "` failed in " << __FILE__ \
+                      << " line " << __LINE__ << ": " << message << std::endl; \
+            std::terminate(); \
+        } \
+    } while (false)
+#else
+#   define ASSERT(condition, message) do { } while (false)
+#endif
+
 class Traits {
 	public:
 		typedef char N;
@@ -38,35 +51,40 @@ class Graph {
 
         Graph() { dir = false; }
 
+        ~Graph() {
+            for (auto&& it : nodes)
+                delete it;
+            nodes.clear();
+        }
+
         void push_node(N data) {
-            if (!find(data))
+            if (!find_node(data))
                 nodes.push_back(new node(data));
         }
 
         void push_node(N data, double x, double y) {
-            if (!find(data))
+            if (!find_node(data))
                 nodes.push_back(new node(data, x, y));
         }
 
+        void push_node(node *temp) {
+            if (!find_node(temp->get_data()))
+                nodes.push_back(new node(temp));
+        }
+        
         void push_edge(N node_1, N node_2, E weight = 0) {
             NodeIte it1, it2;
-            if (!find_node(node_1, it1) || !find_node(node_2, it2))
+            if (!findNode(node_1, it1) || !findNode(node_2, it2))
                 return;
             
-            if (find(node_1, node_2))
+            if (findEdge(*it1, *it2, ei))
                 return;
-            
+
             edge *temp = new edge(*it1, *it2, weight, dir);
 
             (*it1)->addEdge(temp);
             if (!dir)
                 (*it2)->addEdge(temp);
-            //TODO: corregir duplicados
-        }
-
-        void push_node(node *temp) {
-            if (!find(temp->get_data()))
-                nodes.push_back(new node(temp));
         }
 
         void push_edge(edge* new_edge) {
@@ -74,40 +92,60 @@ class Graph {
             push_node(new_edge->first_node());
             push_node(new_edge->second_node());
 
-            find_node(new_edge->first(), it1);
-            find_node(new_edge->second(), it2);
+            findNode(new_edge->first(), it1);
+            findNode(new_edge->second(), it2);
 
+            if (findEdge(*it1, *it2, ei))
+                return;
+            
             edge *temp = new edge(*it1, *it2, new_edge->get_data(), new_edge->isDir());            
-
+            
             (*it1)->addEdge(temp);
 
             if (!new_edge->isDir())
                 (*it2)->addEdge(temp);
-
-            //Corregir duplicados
         }
 
         void remove_node(N data) {
-            if (!find_node(data, ni))
+            if (!findNode(data, ni))
                 return;
             node *ptr= *ni;
             nodes.erase(ni);
-            //falta remover de anexos
+            
+            for (auto eit : list_edges()) {
+                if (eit->first_node() == ptr)
+                    eit->second_node()->removeEdge(eit);
+                
+                if (eit->second_node() == ptr)
+                    eit->first_node()->removeEdge(eit);
+            }
+            
             delete ptr;
         }
 
         void remove_edge(N node_1, N node_2) {
             NodeIte it_node_1, it_node_2;
             EdgeIte it_edge;
-            if (!find_node(node_1, it_node_1) || !find_node(node_2, it_node_2))
+            if (!findNode(node_1, it_node_1) || !findNode(node_2, it_node_2))
                 return;
-            if (!find_edge(*it_node_1, *it_node_2, it_edge))
+            if (!findEdge(*it_node_1, *it_node_2, it_edge))
                 return;
             
             (*it_node_1)->removeEdge(*it_edge);
             
             if (!(*it_edge)->isDir()) 
                 (*it_node_2)->removeEdge(*it_edge);
+        }
+
+        bool find_node(N data) {
+            return findNode(data, ni);
+        }
+
+        bool find_edge(N node_1, N node_2) { 
+            NodeIte it_node_1, it_node_2;
+            if (!findNode(node_1, it_node_1) || !findNode(node_2, it_node_2))
+                return false;
+            return findEdge(*it_node_1, *it_node_2, ei);
         }
 
         void print() {
@@ -120,10 +158,12 @@ class Graph {
 
         EdgeSeq list_edges() {
             EdgeSeq edges;
+
             for(auto&& nit : nodes) {
                 for (auto&& eit : nit->edges)
                     edges.push_back(eit);
             }
+            edges.unique();
             return edges;
         }
 
@@ -131,7 +171,7 @@ class Graph {
             return nodes;
         }
 
-        bool isConexo() {
+        bool is_conexo() {
             map<N, N> reg;
             
             for(auto&& nit : nodes) {
@@ -145,98 +185,12 @@ class Graph {
             return parents.size() == 1;
         }
 
-
-        void on_render(Interface &interface) {
-            for (auto&& it : nodes)
-                it->on_render(interface);
-        }
-
-        self* prim(N init = 0) {
-            map<N, bool> reg;
-            set<edge*, cmp> edges;
-            
-            ni = nodes.begin();
-
-            if (init != 0)
-                find_node(init, ni);
-
-            for (auto eit : (*ni)->edges) {
-                edges.insert(eit);
-            }
-            reg[(*ni)->get_data()] = 1;
-            
-            self* new_graph = new self;
-            bool val = 1;
-            while (val != 0) {
-                val = 0;
-                for (auto it : edges) {
-                    if (!reg[it->first()] || !reg[it->second()]) {
-                        new_graph->push_edge(it);
-                        if (!reg[it->first()]) {
-                            for (auto eit : it->first_node()->edges)
-                                edges.insert(eit);
-                            
-                            reg[it->first()] = 1;
-                        } else {
-                            for (auto eit : it->second_node()->edges)
-                                edges.insert(eit);
-                            
-                            reg[it->second()] = 1;
-                        }
-                        val = 1;
-                        break;
-                    }
-                }
-            }
-            return new_graph;
-        }
-
-        self* kruskal() {
-            map<N, N> reg;
-            set<edge*, cmp> edges;
-            
-            for(auto&& nit : nodes) {
-                reg[nit->get_data()] = 0;
-                for (auto&& eit : nit->edges)
-                    edges.insert(eit);
-            }
-
-            self* new_graph = new self;
-            
-            for (auto it : edges) {
-                if (disjoint_set(reg, it->first(), it->second()))
-                    new_graph->push_edge(it);
-            }
-            
-            edges.clear();
-            reg.clear();
-
-            return new_graph;
-        }
-        
-        ~Graph() {
-            for (auto&& it : nodes)
-                delete it;
-            nodes.clear();
-        }
-
         void dir_graph() {
             dir = true;
         }
 
         bool is_dir() {
             return dir;
-        }
-
-        bool find(N data) {             //nodes
-            return find_node(data, ni);
-        }
-
-        bool find(N node_1, N node_2) { //edges
-            NodeIte it_node_1, it_node_2;
-            if (!find_node(node_1, it_node_1) || !find_node(node_2, it_node_2))
-                return false;
-            return find_edge(*it_node_1, *it_node_2, ei);
         }
 
         float density() {
@@ -250,8 +204,12 @@ class Graph {
             return num_edges / (num_nodes * (num_nodes - 1));
         }
 
+        E count_nodes() {
+            return nodes.size();
+        }
+
         void node_degree(N data) {
-            find_node(data, ni);
+            findNode(data, ni);
             return ni->degee();
         }
 
@@ -259,7 +217,7 @@ class Graph {
             if (!dir)
                 return;
             
-            if (!find_node(data, ni))
+            if (!findNode(data, ni))
                 return;
             //falta
         }
@@ -293,6 +251,73 @@ class Graph {
             return true;
         }
 
+        self* prim(N init = 0) {
+            ASSERT(is_conexo(), "El grafo no es conexo");
+
+            map<N, bool> reg;
+            set<edge*, cmp> edges;
+            
+            ni = nodes.begin();
+
+            if (init != 0)
+                findNode(init, ni);
+
+            for (auto eit : (*ni)->edges) {
+                edges.insert(eit);
+            }
+            reg[(*ni)->get_data()] = 1;
+            
+            self* new_graph = new self;
+            bool val = 1;
+            while (val != 0) {
+                val = 0;
+                for (auto it : edges) {
+                    if (!reg[it->first()] || !reg[it->second()]) {
+                        new_graph->push_edge(it);
+                        if (!reg[it->first()]) {
+                            for (auto eit : it->first_node()->edges)
+                                edges.insert(eit);
+                            
+                            reg[it->first()] = 1;
+                        } else {
+                            for (auto eit : it->second_node()->edges)
+                                edges.insert(eit);
+                            
+                            reg[it->second()] = 1;
+                        }
+                        val = 1;
+                        break;
+                    }
+                }
+            }
+            return new_graph;
+        }
+
+        self* kruskal() {
+            ASSERT(is_conexo(), "El grafo no es conexo");
+
+            map<N, N> reg;
+            set<edge*, cmp> edges;
+            
+            for(auto&& nit : nodes) {
+                reg[nit->get_data()] = 0;
+                for (auto&& eit : nit->edges)
+                    edges.insert(eit);
+            }
+
+            self* new_graph = new self;
+            
+            for (auto it : edges) {
+                if (disjoint_set(reg, it->first(), it->second()))
+                    new_graph->push_edge(it);
+            }
+            
+            edges.clear();
+            reg.clear();
+
+            return new_graph;
+        }
+
         self* DFS(N init = 0) {
             map <N, bool> reg;
             
@@ -309,7 +334,7 @@ class Graph {
             ni = nodes.begin();
 
             if (init != 0)
-                find_node(init, ni);
+                findNode(init, ni);
 
             priority.push(nodes[0]);
             reg[(*ni)->get_data()] = 1;
@@ -336,17 +361,23 @@ class Graph {
             return new_graph;
         }
 
-        self* BFS() {
+        self* BFS(N init = 0) {
             map <N, bool> reg;
             queue<node *> priority;
             self *new_graph = new self;
 
             if (nodes.size() == 0)
                 return new_graph;
+            
+            ni = nodes.begin();
+            if (init != 0)
+                findNode(init, ni);
 
             node *ptr, *temp;
-            priority.push(nodes[0]);
-            reg[nodes[0]->get_data()] = 1;
+            
+            priority.push(*ni);
+            
+            reg[(*ni)->get_data()] = 1;
 
             while (priority.size() > 0) {             
                 for (auto e : priority.front()->edges) {
@@ -362,9 +393,10 @@ class Graph {
 
             return new_graph;
         }
-
-        E count_nodes() {
-            return nodes.size();
+        
+        void on_render(Interface &interface) {
+            for (auto&& it : nodes)
+                it->on_render(interface);
         }
 
         NodeSeq nodes;
@@ -374,15 +406,15 @@ class Graph {
         EdgeIte ei;
         bool dir;
     
-    public:
-        bool find_node(N data, NodeIte &it) {
+    protected:
+        bool findNode(N data, NodeIte &it) {
             for (it = nodes.begin(); it != nodes.end(); ++it) {
                 if ((*it)->get_data() == data)
                     return true;
             }   return false;
         }
 
-        bool find_edge(node *&node_1, node *&node_2, EdgeIte &it) {
+        bool findEdge(node *&node_1, node *&node_2, EdgeIte &it) {
             for (it = node_1->edges.begin(); it != node_1->edges.end(); ++it) {
                 if ((*it)->edgePair(node_1) == node_2)
                     return true;

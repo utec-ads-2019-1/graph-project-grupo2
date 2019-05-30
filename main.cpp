@@ -2,26 +2,24 @@
 #include <iostream>
 #include "interface.h"
 #include "graph.h"
-#include "kuskal.h"
-#include "prim.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
     graph grafo;
-    graph *kruskal, *bfs, *dfs;
+    graph *kruskal, *prim, *bfs, *dfs;
     Interface interface(10, 10, 1280, 720);
 
-    grafo.push_node('A', 200, 200);
-    grafo.push_node('B', 100, 100);
-    grafo.push_node('C', 300, 300);
-    grafo.push_node('D', 300, 300);
-    grafo.push_node('E', 100, 100);
-    grafo.push_node('F', 100, 100);
-    grafo.push_node('G', 100, 100);
-    grafo.push_node('H', 100, 100);
-    grafo.push_node('I', 100, 100);
-
+    grafo.push_node('A');
+    grafo.push_node('B');
+    grafo.push_node('C');
+    grafo.push_node('D');
+    grafo.push_node('E');
+    grafo.push_node('F');
+    grafo.push_node('G');
+    grafo.push_node('H');
+    grafo.push_node('I');
+    
     grafo.push_edge('A', 'B', 1);
     grafo.push_edge('A', 'C', 2);
     grafo.push_edge('A', 'E', 3);
@@ -35,15 +33,13 @@ int main(int argc, char *argv[]) {
     grafo.push_edge('G', 'I', 3);
     grafo.push_edge('H', 'I', 8);
 
+    //grafo.remove_node('E');
+
     grafo.print();
-    
-    //grafo.on_render(interface);
-    
-    //Kruskal k(grafo);
-    //cout << "kruskal" << endl;
-    //kruskal = grafo.kruskal();
-    //kruskal->print();
-    //k.print();
+
+    cout << "kruskal" << endl;
+    kruskal = grafo.kruskal();
+    kruskal->print();
     
     cout << "BFS" << endl;
     bfs = grafo.BFS();
@@ -51,12 +47,11 @@ int main(int argc, char *argv[]) {
 
     cout << "DFS" << endl;
     dfs = grafo.DFS();
-    grafo.isConexo();
     dfs->print();
     
     cout << "Prim" << endl;
-    kruskal = grafo.prim();
-    kruskal->print();
+    prim = grafo.prim();
+    prim->print();
 
     //interface.init(argc, argv);
     //interface.display_func();

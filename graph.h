@@ -118,8 +118,31 @@ class Graph {
             }
         }
 
+        EdgeSeq list_edges() {
+            EdgeSeq edges;
+            for(auto&& nit : nodes) {
+                for (auto&& eit : nit->edges)
+                    edges.push_back(eit);
+            }
+            return edges;
+        }
+
+        NodeSeq list_nodes() {
+            return nodes;
+        }
+
         bool isConexo() {
-            //Falta
+            map<N, N> reg;
+            
+            for(auto&& nit : nodes) {
+                for (auto&& eit : nit->edges)
+                    disjoint_set(reg, eit->first(), eit->second());
+            }
+            set<N> parents;
+            for (auto it : reg) {
+                parents.insert(get_parent(reg, it.first));
+            }
+            return parents.size() == 1;
         }
 
 
@@ -128,11 +151,44 @@ class Graph {
                 it->on_render(interface);
         }
 
-        Graph<Traits>* prim(N data) {
-            if (!find_node(data, ni))
-                exit(0);
-            
+        self* prim(N init = 0) {
+            map<N, bool> reg;
             set<edge*, cmp> edges;
+            
+            ni = nodes.begin();
+
+            if (init != 0)
+                find_node(init, ni);
+
+            for (auto eit : (*ni)->edges) {
+                edges.insert(eit);
+            }
+            reg[(*ni)->get_data()] = 1;
+            
+            self* new_graph = new self;
+            bool val = 1;
+            while (val != 0) {
+                val = 0;
+                for (auto it : edges) {
+                    if (!reg[it->first()] || !reg[it->second()]) {
+                        new_graph->push_edge(it);
+                        if (!reg[it->first()]) {
+                            for (auto eit : it->first_node()->edges)
+                                edges.insert(eit);
+                            
+                            reg[it->first()] = 1;
+                        } else {
+                            for (auto eit : it->second_node()->edges)
+                                edges.insert(eit);
+                            
+                            reg[it->second()] = 1;
+                        }
+                        val = 1;
+                        break;
+                    }
+                }
+            }
+            return new_graph;
         }
 
         self* kruskal() {
@@ -151,14 +207,6 @@ class Graph {
                 if (disjoint_set(reg, it->first(), it->second()))
                     new_graph->push_edge(it);
             }
-
-            /*  En el caso que se quiera incorporar los nodos aislados
-            if (reg.size() > new_graph->count_nodes()) {
-                for (auto it : reg) {
-                    if (it.second == 0)
-                        new_graph->push_node(it.first, 0, 0);   //arreglar pos
-                }
-            }*/
             
             edges.clear();
             reg.clear();
@@ -245,7 +293,7 @@ class Graph {
             return true;
         }
 
-        self* DFS() {
+        self* DFS(N init = 0) {
             map <N, bool> reg;
             
             stack<node*> priority;
@@ -258,8 +306,13 @@ class Graph {
             node *ptr, *temp;
             int count;
 
+            ni = nodes.begin();
+
+            if (init != 0)
+                find_node(init, ni);
+
             priority.push(nodes[0]);
-            reg[nodes[0]->get_data()] = 1;
+            reg[(*ni)->get_data()] = 1;
             
             while (priority.size() > 0) {
                 count = 0;
@@ -279,6 +332,7 @@ class Graph {
                     priority.pop();
                 }
             }
+            reg.clear();
             return new_graph;
         }
 
@@ -304,6 +358,8 @@ class Graph {
                     }
                 }   priority.pop();
             }
+            reg.clear();
+
             return new_graph;
         }
 
@@ -317,7 +373,8 @@ class Graph {
         NodeIte ni;
         EdgeIte ei;
         bool dir;
-        
+    
+    public:
         bool find_node(N data, NodeIte &it) {
             for (it = nodes.begin(); it != nodes.end(); ++it) {
                 if ((*it)->get_data() == data)

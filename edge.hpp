@@ -24,6 +24,11 @@ class Edge {
 			nodes[0] = n1;
 			nodes[1] = n2;
 		}
+
+		bool get_dir()
+		{
+			return (dir);
+		}
 };
 
 #endif

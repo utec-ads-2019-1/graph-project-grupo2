@@ -9,7 +9,6 @@
 
 #include "graph.hpp"
 
-
 class Prim : private graph
 {
 	private:

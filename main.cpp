@@ -39,5 +39,7 @@ int main(int argc, char **argv)
 
 	p.print();
 
+	g.remove_edge('a', 'b');
+
 	return (0);
 }

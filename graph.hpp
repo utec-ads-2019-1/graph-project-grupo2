@@ -113,7 +113,26 @@ class Graph {
 			if (it1 = node_exists(n1); it1 == nodes.end()) 				return;
 			if (it2 = node_exists(n2); it2 == nodes.end()) 				return;
 			if (it3 = edge_exists(n1, n2); it3 != edges.end())
+			{
+				for (auto it = (*it1)->edges.begin(); it != (*it1)->edges.end(); ++it)
+				{
+					if ((*it)->nodes[1]->get_data() == n2)
+					{
+						(*it1)->edges.erase(it);
+					}
+				}
+				if ((*it3)->get_dir())
+				{
+					for (auto it = (*it2)->edges.begin(); it != (*it2)->edges.end(); ++it)
+					{
+						if ((*it)->nodes[1]->get_data() == n1)
+						{
+							(*it2)->edges.erase(it);
+						}
+					}
+				}
 				edges.erase(it3);
+			}
 		}
 
 		void print_nodes()

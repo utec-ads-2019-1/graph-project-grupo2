@@ -204,12 +204,16 @@ class Graph {
         }
 
         bool is_strongly_connected() {
-            self *dfs = DFS();
+            ni = nodes.begin();
+            self *dfs = DFS((*ni)->get_data());
+
+            if (dfs->count_nodes() != count_nodes())
+                return false;
 
             for (auto eit : dfs->list_edges()) {
                 eit->swap_nodes();
             }
-            self *temp = dfs->DFS();
+            self *temp = dfs->DFS((*ni)->get_data());
 
             return temp->count_nodes() != dfs->count_nodes();
         }
@@ -274,42 +278,45 @@ class Graph {
             if (!findNode(data, ni))
                 return 0;
             
-            if (degree_in() != 0) {
-                if (degree_out() == 0)
+            if (degree_in(data) != 0) {
+                if (degree_out(data) == 0)
                     return Hundido;                    
             } else {
-                if (degree_out() != 0)
+                if (degree_out(data) != 0)
                     return Fuente;
                 else
                     return Aislado;
             } return Normal;            
         }
 
-        bool is_bipartito() {
+        bool is_bipartito(N init = 0) {
             map<N, E> reg;
-            queue<N> priority;
+            queue<node*> priority;
 
             if (nodes.size() == 0)
                 return true;
+            ni = nodes.begin();
+            if (init != 0)
+                findNode(init, ni);
             
             E color = 1;
             node* temp;
-            priority.push(nodes[0]);
-            reg[nodes[0]] = color;
+            priority.push(*ni);
+            reg[(*ni)->get_data()] = color;
 
             while(priority.size() > 0) {
-                reg[priority.front()] = color;
-                for (edge e : priority.front()->edges) {
-                    temp = e.edgePair(priority.front());
+                reg[priority.front()->get_data()] = color;
+                for (auto e : priority.front()->edges) {
+                    temp = e->edgePair(priority.front());
                     if (reg[temp->get_data()] == 0)
                         priority.push(temp);
                     else {
-                        if (reg[temp->get_data()] != -color)
+                        if (reg[temp->get_data()] != -1*color)
                             return false;
                     }
                 }
                 priority.pop();
-                color = -color;
+                color = -1 *color;
             }
             return true;
         }
@@ -399,7 +406,7 @@ class Graph {
             if (init != 0)
                 findNode(init, ni);
 
-            priority.push(nodes[0]);
+            priority.push(*ni);
             reg[(*ni)->get_data()] = 1;
             
             while (priority.size() > 0) {

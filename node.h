@@ -43,6 +43,7 @@ class Node {
         }
 
         bool findEdge(edge *last_edge, EdgeIte &it) {
+            if (edges.size() == 0)  return 0;
             it = find(edges.begin(), edges.end(), last_edge);
             return it != edges.end();
         }

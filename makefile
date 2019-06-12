@@ -7,7 +7,6 @@ headers = $(wildcard *.h)
 obj = $(sources:%.cpp=%.o)
 
 FLAGS = -lGL -lGLU -lglut
-
 default: main
 
 %.o: %.cpp

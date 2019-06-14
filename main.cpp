@@ -9,12 +9,18 @@
 
 #define NUM_NODES 9
 
-using namespace std;
-
 int main(int argc, char **argv)
 {
 	sf::RenderWindow window(sf::VideoMode(1200, 800), "Graph");
-	
+	sf::Font font;
+	if (!font.loadFromFile("Courier.ttf"))
+	{
+		std::cout << "ERROR\n";
+	}
+
+	sf::Text text("Grafo", font);
+	text.setPosition(10, 10);
+
 	graph g;
 
 	float r = 300;
@@ -23,22 +29,8 @@ int main(int argc, char **argv)
 
 	char nodes[NUM_NODES] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
 
-	/*
-	g.add_node('a', center_x + r, center_y);
-	g.add_node('b', center_x + r * cos(TWOPI / 9), center_y - r * sin(2 * PI / 9));
-	g.add_node('c', center_x + r * cos(2 * TWOPI / 9), center_y - r * sin(2 * TWOPI / 9));
-	g.add_node('d', center_x + r * cos(3 * TWOPI / 9), center_y - r * sin(3 * TWOPI / 9));
-	g.add_node('e', center_x + r * cos(4 * TWOPI / 9), center_y - r * sin(4 * TWOPI / 9));
-	g.add_node('f', center_x + r * cos(5 * TWOPI / 9), center_y - r * sin(5 * TWOPI / 9));
-	g.add_node('g', center_x + r * cos(6 * TWOPI / 9), center_y - r * sin(6 * TWOPI / 9));
-	g.add_node('h', center_x + r * cos(7 * TWOPI / 9), center_y - r * sin(7 * TWOPI / 9));
-	g.add_node('i', center_x + r * cos(8 * TWOPI / 9), center_y - r * sin(8 * TWOPI / 9));
-	*/
-
 	for (int i = 0; i < NUM_NODES; ++i)
-	{
 		g.add_node(nodes[i], center_x + r * cos(i * TWOPI / 9), center_y - r * sin(i * TWOPI / 9));
-	}
 
 	g.add_edge('a', 'b', 4, true);
 	g.add_edge('a', 'h', 8, true);
@@ -69,7 +61,7 @@ int main(int argc, char **argv)
 		
 		window.clear();
 		// TODO Draw circles
-		
+		window.draw(text);	
 		g.draw(window);
 
 		window.display();

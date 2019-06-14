@@ -2,6 +2,8 @@
 #define NODE_H
 
 #include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 template <typename G>
 class Node
@@ -15,11 +17,16 @@ class Node
 		EdgeSeq edges;
 
 		sf::CircleShape c;
+		sf::Text name;
+		sf::Font font;
+
 	
 	private:
 		N data;
 		float x;
 		float y;
+
+		template <typename T> friend class Edge;
 
 	public:
 		Node(N data) : data(data)
@@ -30,9 +37,15 @@ class Node
 		Node(N data, float x, float y) : data(data), x(x), y(y)
 		{
 			c.setRadius(20);
-			c.setOutlineThickness(5);
-			c.setOutlineColor(sf::Color(250, 150, 100));
 			c.setPosition(x, y);
+			if (!font.loadFromFile("Courier.ttf"))
+			{
+				std::cout << "error loading font.\n";
+			}
+			name = sf::Text(data, font);
+			name.setFillColor(sf::Color::Black);
+
+			name.setPosition(x + 10, y);
 		}
 
 		N get_data()
@@ -43,6 +56,7 @@ class Node
 		void draw(sf::RenderWindow &window)
 		{
 			window.draw(c);
+			window.draw(name);
 		}
 };
 

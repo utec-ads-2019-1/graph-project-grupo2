@@ -150,10 +150,10 @@ class Graph {
 
 		void draw(sf::RenderWindow &window)
 		{
+			for (auto edge : edges)
+				edge->draw(window);
 			for (auto node : nodes)
-			{
 				node->draw(window);
-			}
 		}
 
 	private:

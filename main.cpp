@@ -5,6 +5,9 @@
 #include "graph.hpp"
 
 #define PI 3.14159265
+#define TWOPI 2 * PI
+
+#define NUM_NODES 9
 
 using namespace std;
 
@@ -15,17 +18,27 @@ int main(int argc, char **argv)
 	graph g;
 
 	float r = 300;
-	float center = 500;
+	float center_x = 500;
+	float center_y = 350;
 
-	g.add_node('a', center + r, 350.0);
-	g.add_node('b', center + r * cos(2 * PI / 9), 350.0 - r * sin(2 * PI / 9));
-	g.add_node('c', center + r * cos(2 * 2 * PI / 9), 350.0 - r * sin(2 * 2 * PI / 9));
-	g.add_node('d', center + r * cos(3 * 2 * PI / 9), 350.0 - r * sin(3 * 2 * PI / 9));
-	g.add_node('e', center + r * cos(4 * 2 * PI / 9), 350.0 - r * sin(4 * 2 * PI / 9));
-	g.add_node('f', center + r * cos(5 * 2 * PI / 9), 350.0 - r * sin(5 * 2 * PI / 9));
-	g.add_node('g', center + r * cos(6 * 2 * PI / 9), 350.0 - r * sin(6 * 2 * PI / 9));
-	g.add_node('h', center + r * cos(7 * 2 * PI / 9), 350.0 - r * sin(7 * 2 * PI / 9));
-	g.add_node('i', center + r * cos(8 * 2 * PI / 9), 350.0 - r * sin(8 * 2 * PI / 9));
+	char nodes[NUM_NODES] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
+
+	/*
+	g.add_node('a', center_x + r, center_y);
+	g.add_node('b', center_x + r * cos(TWOPI / 9), center_y - r * sin(2 * PI / 9));
+	g.add_node('c', center_x + r * cos(2 * TWOPI / 9), center_y - r * sin(2 * TWOPI / 9));
+	g.add_node('d', center_x + r * cos(3 * TWOPI / 9), center_y - r * sin(3 * TWOPI / 9));
+	g.add_node('e', center_x + r * cos(4 * TWOPI / 9), center_y - r * sin(4 * TWOPI / 9));
+	g.add_node('f', center_x + r * cos(5 * TWOPI / 9), center_y - r * sin(5 * TWOPI / 9));
+	g.add_node('g', center_x + r * cos(6 * TWOPI / 9), center_y - r * sin(6 * TWOPI / 9));
+	g.add_node('h', center_x + r * cos(7 * TWOPI / 9), center_y - r * sin(7 * TWOPI / 9));
+	g.add_node('i', center_x + r * cos(8 * TWOPI / 9), center_y - r * sin(8 * TWOPI / 9));
+	*/
+
+	for (int i = 0; i < NUM_NODES; ++i)
+	{
+		g.add_node(nodes[i], center_x + r * cos(i * TWOPI / 9), center_y - r * sin(i * TWOPI / 9));
+	}
 
 	g.add_edge('a', 'b', 4, true);
 	g.add_edge('a', 'h', 8, true);

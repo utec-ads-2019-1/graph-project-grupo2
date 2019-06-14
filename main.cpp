@@ -1,7 +1,10 @@
 #include <iostream>
+#include <math.h>
 #include <SFML/Graphics.hpp>
 
 #include "graph.hpp"
+
+#define PI 3.14159265
 
 using namespace std;
 
@@ -11,16 +14,18 @@ int main(int argc, char **argv)
 	
 	graph g;
 
-	g.add_node('a', 100.0, 100.0);
-	g.add_node('b', 200.0, 200.0);
-	/*
-	g.add_node('c');
-	g.add_node('d');
-	g.add_node('e');
-	g.add_node('f');
-	g.add_node('g');
-	g.add_node('h');
-	g.add_node('i');
+	float r = 300;
+	float center = 500;
+
+	g.add_node('a', center + r, 350.0);
+	g.add_node('b', center + r * cos(2 * PI / 9), 350.0 - r * sin(2 * PI / 9));
+	g.add_node('c', center + r * cos(2 * 2 * PI / 9), 350.0 - r * sin(2 * 2 * PI / 9));
+	g.add_node('d', center + r * cos(3 * 2 * PI / 9), 350.0 - r * sin(3 * 2 * PI / 9));
+	g.add_node('e', center + r * cos(4 * 2 * PI / 9), 350.0 - r * sin(4 * 2 * PI / 9));
+	g.add_node('f', center + r * cos(5 * 2 * PI / 9), 350.0 - r * sin(5 * 2 * PI / 9));
+	g.add_node('g', center + r * cos(6 * 2 * PI / 9), 350.0 - r * sin(6 * 2 * PI / 9));
+	g.add_node('h', center + r * cos(7 * 2 * PI / 9), 350.0 - r * sin(7 * 2 * PI / 9));
+	g.add_node('i', center + r * cos(8 * 2 * PI / 9), 350.0 - r * sin(8 * 2 * PI / 9));
 
 	g.add_edge('a', 'b', 4, true);
 	g.add_edge('a', 'h', 8, true);
@@ -39,7 +44,6 @@ int main(int argc, char **argv)
 
 	g.print_nodes();
 	g.print_edges();
-	*/
 
 	while (window.isOpen())
 	{

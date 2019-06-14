@@ -36,8 +36,6 @@ class Graph {
         NodeIte ni;
         EdgeIte ei;
 
-		friend class Kruskal;
-		friend class Prim;
 	
 	public:
 		Graph()
@@ -50,14 +48,14 @@ class Graph {
 			// TODO
 		}
 		
-		void add_node(N data)
+		void add_node(N data, float x, float y)
 		{
 			node* newNode;
 			NodeIte it;
 
 			if (it = node_exists(data); it == nodes.end())
 			{
-				newNode = new node(data);
+				newNode = new node(data, x, y);
 				nodes.push_back(newNode);
 			}
 		}
@@ -148,6 +146,14 @@ class Graph {
 			for (auto edge : edges)
 				std::cout << edge->nodes[0]->get_data() << ' ' <<
 				   	edge->nodes[1]->get_data() << '\n';
+		}
+
+		void draw(sf::RenderWindow &window)
+		{
+			for (auto node : nodes)
+			{
+				node->draw(window);
+			}
 		}
 
 	private:

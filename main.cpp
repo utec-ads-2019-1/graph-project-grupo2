@@ -1,17 +1,19 @@
-//#include <GL/glut.h>
 #include <iostream>
+#include <SFML/Graphics.hpp>
 
 #include "graph.hpp"
-#include "prim.hpp"
 
 using namespace std;
 
 int main(int argc, char **argv)
 {
+	sf::RenderWindow window(sf::VideoMode(1200, 800), "Graph");
+	
 	graph g;
 
-	g.add_node('a');
-	g.add_node('b');
+	g.add_node('a', 100.0, 100.0);
+	g.add_node('b', 200.0, 200.0);
+	/*
 	g.add_node('c');
 	g.add_node('d');
 	g.add_node('e');
@@ -35,11 +37,25 @@ int main(int argc, char **argv)
 	g.add_edge('d', 'e', 9, true);
 	g.add_edge('f', 'e', 10, true);
 
-	Prim p(g);
+	g.print_nodes();
+	g.print_edges();
+	*/
 
-	p.print();
+	while (window.isOpen())
+	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+		
+		window.clear();
+		// TODO Draw circles
+		
+		g.draw(window);
 
-	g.remove_edge('a', 'b');
-
+		window.display();
+	}
 	return (0);
 }

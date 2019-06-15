@@ -1,6 +1,8 @@
 #include <iostream>
 #include <math.h>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include "graph.hpp"
 
@@ -13,9 +15,23 @@ int main(int argc, char **argv)
 {
 	sf::RenderWindow window(sf::VideoMode(1200, 800), "Graph");
 	sf::Font font;
+	sf::Texture exitButtonTexture;
+	sf::Sprite exitButton;
+	if (!exitButtonTexture.loadFromFile("exit-button.png"))
+	{
+		std::cout << "ERROR loading exit button.\n";
+	}
+
+	exitButton.setTexture(exitButtonTexture);
+	exitButton.setScale(0.3, 0.3);
+	exitButton.setPosition(50, 600);
+
+	float exitButtonWidth = exitButton.getLocalBounds().width;
+	float exitButtonHeight = exitButton.getLocalBounds().height;
+	
 	if (!font.loadFromFile("Courier.ttf"))
 	{
-		std::cout << "ERROR\n";
+		std::cout << "ERROR loading courier ttf\n";
 	}
 
 	sf::Text text("Grafo", font);
@@ -24,7 +40,7 @@ int main(int argc, char **argv)
 	graph g;
 
 	float r = 300;
-	float center_x = 500;
+	float center_x = 700;
 	float center_y = 350;
 
 	char nodes[NUM_NODES] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
@@ -57,10 +73,32 @@ int main(int argc, char **argv)
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+			else if (event.type == sf::Event::MouseMoved)
+			{
+				sf::Vector2i mousePos = sf::Mouse::getPosition( window );
+				sf::Vector2f mousePosF( static_cast<float>( mousePos.x ), static_cast<float>( mousePos.y ) );
+				if ( exitButton.getGlobalBounds().contains( mousePosF ) )
+				{
+					exitButton.setColor( sf::Color( 250, 20, 20 ) );
+				}
+				else
+				{
+					exitButton.setColor( sf::Color( 255, 255, 255 ) );
+				}
+			}
+			else if (event.type == sf::Event::MouseButtonPressed)
+			{
+				sf::Vector2i mousePos = sf::Mouse::getPosition( window );
+				sf::Vector2f mousePosF( static_cast<float>( mousePos.x ), static_cast<float>( mousePos.y ) );
+				if ( exitButton.getGlobalBounds().contains( mousePosF ) )
+				{
+					window.close();
+				}
+			}
 		}
 		
 		window.clear();
-		// TODO Draw circles
+		window.draw(exitButton);
 		window.draw(text);	
 		g.draw(window);
 

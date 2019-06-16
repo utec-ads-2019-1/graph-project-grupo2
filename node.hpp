@@ -14,19 +14,17 @@ class Node
 		typedef typename G::edge edge;
 		typedef typename G::EdgeSeq EdgeSeq;
 
-		EdgeSeq edges;
-
-		sf::CircleShape c;
-		sf::Text name;
-		sf::Font font;
-
-	
 	private:
 		N data;
 		float x;
 		float y;
+		EdgeSeq edges;
+		sf::CircleShape c;
+		sf::Text name;
+		sf::Font font;
 
 		template <typename T> friend class Edge;
+		template <typename T> friend class Graph;
 
 	public:
 		Node(N data) : data(data)
@@ -39,18 +37,17 @@ class Node
 			c.setRadius(20);
 			c.setPosition(x, y);
 			if (!font.loadFromFile("Courier.ttf"))
-			{
 				std::cout << "error loading font.\n";
-			}
 			name = sf::Text(data, font);
 			name.setFillColor(sf::Color::Black);
-
 			name.setPosition(x + 10, y);
 		}
 
-		N get_data()
+		~Node()
 		{
-			return (data);
+			for (auto it = edges.begin(); it != edges.end(); ++it)
+				delete *it;
+			edges.clear();
 		}
 
 		void draw(sf::RenderWindow &window)

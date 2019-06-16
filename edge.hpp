@@ -11,13 +11,13 @@ class Edge {
         typedef typename G::E E;
         typedef typename G::node node;
 
-        node* nodes[2];
-
-	sf::Vertex line[2];
-
     private:
         E data;
         bool dir;
+        node* nodes[2];
+		sf::Vertex line[2];
+
+		template <typename T> friend class Graph;
 
 	public:
 		Edge(node *n1, node *n2, E data, bool dir) : dir(dir), data(data)
@@ -29,9 +29,9 @@ class Edge {
 			line[1] = sf::Vertex(sf::Vector2f(n2->x + 20, n2->y + 20));
 		}
 
-		bool get_dir()
+		~Edge()
 		{
-			return (dir);
+			//
 		}
 
 		void draw(sf::RenderWindow &window)

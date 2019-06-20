@@ -1,14 +1,20 @@
 #include <GL/glut.h>
 #include <iostream>
 #include "interface.h"
-#include "graph.h"
+#include "read.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
+    
+    if (argc < 1) {
+        cout << "[\tERROR\t] No input file given" << endl;
+        return 1;
+    }
+
     graph grafo;
     graph *kruskal, *prim, *bfs, *dfs;
-/*
+    /*
     grafo.dir_graph();
     grafo.push_node('A');
     grafo.push_node('B');
@@ -32,7 +38,7 @@ int main(int argc, char *argv[]) {
     grafo.push_edge('F', 'G');
     grafo.push_edge('G', 'F');
     grafo.push_edge('G', 'H');
-  */  
+    */  
     /*
     grafo.dir_graph();
     grafo.push_node('A');
@@ -46,7 +52,7 @@ int main(int argc, char *argv[]) {
     grafo.push_edge('C', 'B');
     grafo.push_edge('B', 'A');
     */
-/*    
+    /*    
     grafo.push_node('A');
     grafo.push_node('B');
     grafo.push_node('C');
@@ -68,7 +74,7 @@ int main(int argc, char *argv[]) {
     grafo.push_edge('H', 'F');
     grafo.push_edge('G', 'H');
     grafo.push_edge('E', 'G');
-  */  
+    */  
     /*
     grafo.push_node('A');
     grafo.push_node('B');
@@ -112,7 +118,6 @@ int main(int argc, char *argv[]) {
     grafo.push_edge('B', 'F', 24);
     grafo.push_edge('C', 'A', 5);
 
-
     grafo.push_edge('C', 'E', 16);
     grafo.push_edge('D', 'I', 8);
     grafo.push_edge('E', 'A', 2);
@@ -146,7 +151,7 @@ int main(int argc, char *argv[]) {
  
 
 
-    //g++ graph.h node.h edge.h main.cpp -o main -lGL -lGLU -lglut
+    //g++ main.cpp -o main -lGL -lGLU -lglut
 
     return EXIT_SUCCESS;
 }

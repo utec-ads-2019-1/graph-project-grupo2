@@ -11,6 +11,8 @@ class Edge {
         typedef typename G::E E;
         typedef typename G::node node;
 
+		friend class FloydWarshall;
+
     private:
         E data;
         bool dir;

@@ -1,10 +1,13 @@
 #include <iostream>
 #include <math.h>
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
+
 #include "graph.hpp"
+#include "floydw.hpp"
 
 #define PI 3.14159265
 #define TWOPI 2 * PI
@@ -62,6 +65,9 @@ int main(int argc, char **argv)
 	g.add_edge('d', 'f', 14, true);
 	g.add_edge('d', 'e', 9, true);
 	g.add_edge('f', 'e', 10, true);
+
+	FloydWarshall f(g);
+
 
 	g.print_nodes();
 	g.print_edges();

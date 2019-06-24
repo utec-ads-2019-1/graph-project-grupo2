@@ -25,6 +25,7 @@ class Node
 
 		template <typename T> friend class Edge;
 		template <typename T> friend class Graph;
+		friend class aStar;
 
 	public:
 		Node(N data) : data(data)

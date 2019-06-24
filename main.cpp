@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 
 #include "graph.hpp"
+//#include "aStar.hpp"
 
 #define PI 3.14159265
 #define TWOPI 2 * PI
@@ -13,11 +14,12 @@
 
 int main(int argc, char **argv)
 {
+	/*
 	sf::RenderWindow window(sf::VideoMode(1200, 800), "Graph");
 	sf::Font font;
 	sf::Texture exitButtonTexture;
 	sf::Sprite exitButton;
-	if (!exitButtonTexture.loadFromFile("exit-button.png"))
+	if (!exitButtonTexture.loadFromFile("img/exit-button.png"))
 	{
 		std::cout << "ERROR loading exit button.\n";
 	}
@@ -39,32 +41,38 @@ int main(int argc, char **argv)
 
 	graph g;
 
-	float r = 300;
-	float center_x = 700;
-	float center_y = 350;
+	g.add_node('a', 400, 100);
+	g.add_node('b', 600, 50);
+	g.add_node('c', 700, 150);
+	g.add_node('d', 800, 150);
+	g.add_node('e', 600, 200);
+	g.add_node('f', 400, 250);
+	g.add_node('g', 750, 300);
+	g.add_node('h', 450, 350);
+	g.add_node('i', 650, 450);
 
-	char nodes[NUM_NODES] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
 
-	for (int i = 0; i < NUM_NODES; ++i)
-		g.add_node(nodes[i], center_x + r * cos(i * TWOPI / 9), center_y - r * sin(i * TWOPI / 9));
-
-	g.add_edge('a', 'b', 4, true);
-	g.add_edge('a', 'h', 8, true);
-	g.add_edge('b', 'h', 11, true);
-	g.add_edge('h', 'i', 7, true);
-	g.add_edge('h', 'g', 1, true);
+	g.add_edge('a', 'b', 5, true);
+	g.add_edge('a', 'e', 6, true);
+	g.add_edge('a', 'f', 3, true);
 	g.add_edge('b', 'c', 8, true);
-	g.add_edge('i', 'c', 2, true);
-	g.add_edge('i', 'g', 6, true);
-	g.add_edge('g', 'f', 2, true);
-	g.add_edge('c', 'd', 7, true);
-	g.add_edge('c', 'f', 4, true);
-	g.add_edge('d', 'f', 14, true);
-	g.add_edge('d', 'e', 9, true);
-	g.add_edge('f', 'e', 10, true);
+	g.add_edge('b', 'd', 7, true);
+	g.add_edge('e', 'c', 6, true);
+	g.add_edge('c', 'd', 2, true);
+	g.add_edge('f', 'e', 2, true);
+	g.add_edge('f', 'h', 5, true);
+	g.add_edge('h', 'e', 3, true);
+	g.add_edge('h', 'g', 7, true);
+	g.add_edge('h', 'i', 8, true);
+	g.add_edge('e', 'i', 4, true);
+	g.add_edge('i', 'g', 4, true);
+	g.add_edge('c', 'g', 10, true);
+	g.add_edge('d', 'g', 4, true);
 
 	g.print_nodes();
 	g.print_edges();
+
+	//aStar path = aStar::get_path(g, 'a', 'g');
 
 	while (window.isOpen())
 	{
@@ -104,5 +112,13 @@ int main(int argc, char **argv)
 
 		window.display();
 	}
+	*/
+
+	graph g;
+	g.add_node('a', 100, 100);
+	g.add_node('b', 400, 100);
+	g.add_edge('a', 'b', 10, false);
+	g.print_nodes();
+	g.print_edges();
 	return (0);
 }

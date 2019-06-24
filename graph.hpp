@@ -32,6 +32,7 @@ class Graph {
         typedef typename EdgeSeq::iterator EdgeIte;
 
 		friend class FloydWarshall;
+		friend class BellmanFord;
 
     protected:
         NodeSeq nodes;

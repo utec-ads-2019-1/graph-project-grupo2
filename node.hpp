@@ -18,7 +18,7 @@ class Node
 	protected:
 		N data;
 		friend class FloydWarshall;
-		
+		friend class BellmanFord;
 
 	private:
 		float x;

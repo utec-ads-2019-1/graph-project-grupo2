@@ -12,6 +12,7 @@ class Edge {
         typedef typename G::node node;
 
 		friend class FloydWarshall;
+		friend class BellmanFord;
 
     private:
         E data;
@@ -35,6 +36,10 @@ class Edge {
 		{
 			//
 		}
+
+		node* edgePair(node* ptr) {
+            return ptr == nodes[0] ? nodes[1] : nodes[0];
+        }
 
 		void draw(sf::RenderWindow &window)
 		{

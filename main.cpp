@@ -7,6 +7,7 @@
 
 
 #include "graph.hpp"
+#include "bellmanf.hpp"
 #include "floydw.hpp"
 
 #define PI 3.14159265
@@ -46,11 +47,12 @@ int main(int argc, char **argv)
 	float center_x = 700;
 	float center_y = 350;
 
-	char nodes[NUM_NODES] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
+	char nodes[NUM_NODES] = {'a', 'b', 'c', 'd', 'e', 'f', 'g','h', 'i'};
 
 	for (int i = 0; i < NUM_NODES; ++i)
 		g.add_node(nodes[i], center_x + r * cos(i * TWOPI / 9), center_y - r * sin(i * TWOPI / 9));
 
+	
 	g.add_edge('a', 'b', 4, true);
 	g.add_edge('a', 'h', 8, true);
 	g.add_edge('b', 'h', 11, true);
@@ -66,7 +68,7 @@ int main(int argc, char **argv)
 	g.add_edge('d', 'e', 9, true);
 	g.add_edge('f', 'e', 10, true);
 
-	FloydWarshall f(g);
+	BellmanFord f(g, 'a');
 
 
 	g.print_nodes();

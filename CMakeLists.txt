@@ -8,9 +8,6 @@ include_directories(.)
 add_executable(graph
         edge.h
         graph.h
-        graph.hpp
         main.cpp
         node.h
-        read.hpp
-        disjoin
         )

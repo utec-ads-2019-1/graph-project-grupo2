@@ -49,6 +49,9 @@ class Edge {
         node* second_node() {
             return nodes[1];
         }
+    void swap_nodes() {
+        std::swap(nodes[0], nodes[1]);
+    }
 
         node* edgePair(node* ptr) {
             return ptr == nodes[0] ? nodes[1] : nodes[0];

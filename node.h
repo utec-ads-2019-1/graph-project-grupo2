@@ -15,25 +15,23 @@ class Node {
 
     private:
         N data;
-        double x;
-        double y;
-    
+
     public:
+        E num_dominated; // veces que es dominado
+        E status; // 0 blanco , 1 azul, 2 rojo
+        E num_choise ;
+
+
         Node(N new_data) {
             data = new_data;
+            status = 0;
+
         }
 
-        Node(N new_data, double mx, double my) {
-            data = new_data;
-            x = mx;
-            y = my;
+        void addNum_choise(E num){
+            num_choise = this->num_choise + num;
         }
 
-        Node(node *new_node) {
-            data = new_node->get_data();
-            x = new_node->get_pos_x();
-            y = new_node->get_pos_y();
-        }
 
         void addEdge(edge *new_edge) {
             EdgeIte it;
@@ -58,14 +56,6 @@ class Node {
             return data;
         }
 
-        E get_pos_x() {
-            return x;
-        }
-
-        E get_pos_y() {
-            return y;
-        }
-
         E degree() {
             return edges.size();
         }
@@ -77,9 +67,6 @@ class Node {
             }   edges.clear();
         }
 
-//        void on_render(Interface &interface) {
-//            interface.add_nodes(x, y);
-//        }
 };
 
 #endif

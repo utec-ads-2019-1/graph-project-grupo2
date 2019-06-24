@@ -6,8 +6,6 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     graph grafo;
-    graph *kruskal, *bfs, *dfs;
-    //Interface interface(10, 10, 1280, 720);
 
     grafo.push_node('A');
     grafo.push_node('B');
@@ -15,46 +13,58 @@ int main(int argc, char *argv[]) {
     grafo.push_node('D');
     grafo.push_node('E');
     grafo.push_node('F');
-    grafo.push_node('G');
-    grafo.push_node('H');
-    grafo.push_node('I');
 
-    grafo.push_edge('A', 'B');
-    grafo.push_edge('A', 'C');
+//    grafo.dir_graph();
+    grafo.push_edge('B', 'A');
     grafo.push_edge('A', 'E');
-    grafo.push_edge('D', 'B');
+    grafo.push_edge('E', 'B');
     grafo.push_edge('C', 'B');
-    grafo.push_edge('C', 'D');
+    grafo.push_edge('D', 'C');
+    grafo.push_edge('E', 'F');
     grafo.push_edge('C', 'F');
-    grafo.push_edge('C', 'E');
-    grafo.push_edge('E', 'H');
-    grafo.push_edge('E', 'G');
-    grafo.push_edge('G', 'I');
-    grafo.push_edge('H', 'I');
+
+    int deg = grafo.node_degree('A');
+    std::cout<< deg <<endl;
+    std::cout << grafo.max_degree() <<endl;
+//    grafo.push_node(1);
+//    grafo.push_node(2);
+//    grafo.push_node(3);
+//    grafo.push_node(4);
+//
+//    grafo.dir_graph();
+//    grafo.push_edge(2, 1);
+//    grafo.push_edge(1, 4);
+//    grafo.push_edge(4, 2);
+//    grafo.push_edge(3, 2);
+//    grafo.push_edge(4, 3);
+
+//    grafo.push_node('A');
+//    grafo.push_node('B');
+//    grafo.push_node('C');
+//    grafo.push_node('D');
+//    grafo.push_node('E');
+//    grafo.push_node('F');
+//    grafo.push_node('G');
+//    grafo.push_node('H');
+//
+//    grafo.push_edge('A', 'B');
+//    grafo.push_edge('E', 'A');
+//    grafo.push_edge('B', 'C');
+//    grafo.push_edge('C', 'D');
+//    grafo.push_edge('D', 'C');
+//    grafo.push_edge('B', 'E');
+//    grafo.push_edge('B', 'F');
+//    grafo.push_edge('F', 'G');
+//    grafo.push_edge('G', 'F');
+//    grafo.push_edge('G', 'H');
+//    grafo.push_edge('D', 'H');
+//    grafo.push_edge('C', 'G');
+//    grafo.push_edge('E', 'F');
 
     grafo.print();
-    
-    //grafo.on_render(interface);
 
-    cout << "kruskal" << endl;
-    kruskal = grafo.kruskal();
-    kruskal->print();
 
-    cout << "BFS" << endl;
-    bfs = grafo.BFS();
-    bfs->print();
 
-    cout << "DFS" << endl;
-    dfs = grafo.DFS();
-    dfs->print();
-
-    //interface.init(argc, argv);
-    //interface.display_func();
-
-    
-
-    //glutMainLoop ();
-    //g++ graph.h node.h edge.h main.cpp -o main -lGL -lGLU -lglut
 
 
     return EXIT_SUCCESS;

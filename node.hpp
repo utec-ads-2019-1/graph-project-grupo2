@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Font.hpp>
 
+
 template <typename G>
 class Node
 {
@@ -14,8 +15,12 @@ class Node
 		typedef typename G::edge edge;
 		typedef typename G::EdgeSeq EdgeSeq;
 
-	private:
+	protected:
 		N data;
+		friend class FloydWarshall;
+		friend class BellmanFord;
+
+	private:
 		float x;
 		float y;
 		EdgeSeq edges;

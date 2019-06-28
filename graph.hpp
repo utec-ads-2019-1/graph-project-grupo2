@@ -11,6 +11,7 @@
 #include "edge.hpp"
 
 
+
 class Traits {
 	public:
 		typedef char	N;
@@ -30,7 +31,10 @@ class Graph {
         typedef typename NodeSeq::iterator NodeIte;
         typedef typename EdgeSeq::iterator EdgeIte;
 
-    private:
+		friend class FloydWarshall;
+		friend class BellmanFord;
+
+    protected:
         NodeSeq nodes;
 		EdgeSeq edges;
 		

@@ -1,13 +1,17 @@
 #include <iostream>
 #include <math.h>
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <thread>
 #include <future>
 
+
 #include "graph.hpp"
 #include "aStar.hpp"
+#include "bellmanf.hpp"
+#include "floydw.hpp"
 
 aStar f(graph g, char a, char b)
 {
@@ -23,9 +27,7 @@ int main(int argc, char **argv)
 	sf::Texture exitButtonTexture;
 	sf::Sprite exitButton;
 	if (!exitButtonTexture.loadFromFile("img/exit-button.png"))
-	{
 		std::cout << "ERROR loading exit button.\n";
-	}
 
 	exitButton.setTexture(exitButtonTexture);
 	exitButton.setScale(0.3, 0.3);
@@ -35,9 +37,7 @@ int main(int argc, char **argv)
 	float exitButtonHeight = exitButton.getLocalBounds().height;
 	
 	if (!font.loadFromFile("Courier.ttf"))
-	{
 		std::cout << "ERROR loading courier ttf\n";
-	}
 
 	sf::Text text("Grafo", font);
 	text.setPosition(10, 10);
@@ -54,9 +54,8 @@ int main(int argc, char **argv)
 	g.add_node('h', 450, 350);
 	g.add_node('i', 650, 450);
 
-
-	g.add_edge('a', 'b', 5, false);
-	g.add_edge('a', 'e', 200, false);
+	g.add_edge('a', 'b', 5, true);
+	g.add_edge('a', 'e', 200, true);
 	g.add_edge('a', 'f', 3, true);
 	g.add_edge('b', 'c', 8, true);
 	g.add_edge('b', 'd', 7, true);
@@ -72,9 +71,11 @@ int main(int argc, char **argv)
 	g.add_edge('c', 'g', 10, true);
 	g.add_edge('d', 'g', 4, true);
 
+	BellmanFord b(g, 'a');
+	FloydWarshall c(g);
+
 	g.print_nodes();
 	g.print_edges();
-
 
 	aStar *results;
 	results = new aStar[10]();

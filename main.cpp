@@ -55,8 +55,8 @@ int main(int argc, char **argv)
 	g.add_node('i', 650, 450);
 
 
-	g.add_edge('a', 'b', 5, true);
-	g.add_edge('a', 'e', 200, true);
+	g.add_edge('a', 'b', 5, false);
+	g.add_edge('a', 'e', 200, false);
 	g.add_edge('a', 'f', 3, true);
 	g.add_edge('b', 'c', 8, true);
 	g.add_edge('b', 'd', 7, true);

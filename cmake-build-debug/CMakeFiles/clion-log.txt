@@ -1,4 +1,6 @@
 /opt/clion-2018.1/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2
--- Configuring done
--- Generating done
--- Build files have been written to: /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/cmake-build-debug
+CMake Error at CMakeLists.txt:1 (cmake_minimum_required):
+  CMake 3.14 or higher is required.  You are running version 3.10.2
+
+
+-- Configuring incomplete, errors occurred!

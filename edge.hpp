@@ -18,6 +18,7 @@ class Edge {
 		sf::Vertex line[2];
 
 		template <typename T> friend class Graph;
+		friend class aStar;
 
 	public:
 		Edge(node *n1, node *n2, E data, bool dir) : dir(dir), data(data)

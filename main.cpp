@@ -3,18 +3,21 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <thread>
+#include <future>
 
 #include "graph.hpp"
-//#include "aStar.hpp"
+#include "aStar.hpp"
 
-#define PI 3.14159265
-#define TWOPI 2 * PI
-
-#define NUM_NODES 9
+aStar f(graph g, char a, char b)
+{
+	std::cout << "camino de " << a << " a " << b << '\n';
+	aStar res = aStar::get_path(g, a, b);
+	return res;
+}
 
 int main(int argc, char **argv)
 {
-	/*
 	sf::RenderWindow window(sf::VideoMode(1200, 800), "Graph");
 	sf::Font font;
 	sf::Texture exitButtonTexture;
@@ -53,7 +56,7 @@ int main(int argc, char **argv)
 
 
 	g.add_edge('a', 'b', 5, true);
-	g.add_edge('a', 'e', 6, true);
+	g.add_edge('a', 'e', 200, true);
 	g.add_edge('a', 'f', 3, true);
 	g.add_edge('b', 'c', 8, true);
 	g.add_edge('b', 'd', 7, true);
@@ -72,7 +75,33 @@ int main(int argc, char **argv)
 	g.print_nodes();
 	g.print_edges();
 
-	//aStar path = aStar::get_path(g, 'a', 'g');
+
+	aStar *results;
+	results = new aStar[10]();
+
+	std::thread *threads;
+	threads = new std::thread[10];
+
+	char arr[10][2] = {
+						{'a', 'e'},
+						{'e', 'g'},
+						{'f', 'c'},
+						{'d', 'i'},
+						{'b', 'g'},
+						{'c', 'f'},
+						{'d', 'b'},
+						{'a', 'd'},
+						{'g', 'f'},
+						{'e', 'i'}
+						};
+
+	for (size_t i = 0; i < 10; ++i)
+	{
+		auto future = std::async(f, g, arr[i][0], arr[i][1]);
+		results[i] = future.get();
+	}
+
+	aStar path = aStar::get_path(g, 'a', 'g');
 
 	while (window.isOpen())
 	{
@@ -83,22 +112,22 @@ int main(int argc, char **argv)
 				window.close();
 			else if (event.type == sf::Event::MouseMoved)
 			{
-				sf::Vector2i mousePos = sf::Mouse::getPosition( window );
-				sf::Vector2f mousePosF( static_cast<float>( mousePos.x ), static_cast<float>( mousePos.y ) );
-				if ( exitButton.getGlobalBounds().contains( mousePosF ) )
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				sf::Vector2f mousePosF( static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+				if (exitButton.getGlobalBounds().contains(mousePosF))
 				{
-					exitButton.setColor( sf::Color( 250, 20, 20 ) );
+					exitButton.setColor(sf::Color(250, 20, 20));
 				}
 				else
 				{
-					exitButton.setColor( sf::Color( 255, 255, 255 ) );
+					exitButton.setColor(sf::Color(255, 255, 255));
 				}
 			}
 			else if (event.type == sf::Event::MouseButtonPressed)
 			{
-				sf::Vector2i mousePos = sf::Mouse::getPosition( window );
-				sf::Vector2f mousePosF( static_cast<float>( mousePos.x ), static_cast<float>( mousePos.y ) );
-				if ( exitButton.getGlobalBounds().contains( mousePosF ) )
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				sf::Vector2f mousePosF( static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+				if (exitButton.getGlobalBounds().contains(mousePosF))
 				{
 					window.close();
 				}
@@ -112,13 +141,5 @@ int main(int argc, char **argv)
 
 		window.display();
 	}
-	*/
-
-	graph g;
-	g.add_node('a', 100, 100);
-	g.add_node('b', 400, 100);
-	g.add_edge('a', 'b', 10, false);
-	g.print_nodes();
-	g.print_edges();
 	return (0);
 }

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/graph-project-grupo2.dir/main.cpp.o  -o graph-project-grupo2  -L/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/SFML_LIBRARY_DIR -Wl,-rpath,/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/SFML_LIBRARY_DIR -lsfml-graphics -lsfml-window -lsfml-system 

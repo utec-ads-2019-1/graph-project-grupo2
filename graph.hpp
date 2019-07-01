@@ -31,6 +31,8 @@ public:
     typedef typename NodeSeq::iterator NodeIte;
     typedef typename EdgeSeq::iterator EdgeIte;
 
+    friend class dijkstra ;
+
 
 protected:
     NodeSeq nodes;

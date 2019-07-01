@@ -5,13 +5,15 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
-
 #include "graph.hpp"
+#include "Dijkstra.hpp"
 
 #define PI 3.14159265
 #define TWOPI 2 * PI
 
 #define NUM_NODES 9
+
+
 
 int main(int argc, char **argv)
 {

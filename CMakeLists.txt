@@ -15,7 +15,6 @@ set_property(DIRECTORY APPEND PROPERTY
         "compile_commands.json"
         )
 
-
 set(SFML_INCLUDE_DIR "/home/yoncho/Downloads/SFML-2.5.1/include")
 set(SFML_LIBRARY_DIR "/home/yoncho/Downloads/SFML-2.5.1/lib")
 set(SFML_DIR "/home/yoncho/Downloads/SFML-2.5.1/lib/cmake/SFML")
@@ -30,7 +29,6 @@ if(SFML_FOUND)
     message(STATUS "SFML_LIBRARIES: ${SFML_LIBRARIES}")
     message(STATUS "SFML_VERSION: ${SFML_VERSION}")
 endif()
-
 
 add_executable(graph ${src})
 target_link_libraries (graph sfml-graphics sfml-window sfml-system)

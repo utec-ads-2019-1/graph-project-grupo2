@@ -26,7 +26,10 @@ class Node
 		template <typename T> friend class Edge;
 		template <typename T> friend class Graph;
 
-	public:
+        friend class dijkstra ;
+
+
+public:
 		Node(N data) : data(data)
 		{
 			//

@@ -676,7 +676,17 @@ SFML/Config.hpp
 
 /home/yoncho/Downloads/SFML-2.5.1/include/SFML/Window/WindowStyle.hpp
 
-/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/Dijkstra.hpp
+/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/aStar.hpp
+vector
+-
+map
+-
+cmath
+-
+graph.hpp
+/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/graph.hpp
+
+/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/bellmanf.hpp
 iostream
 -
 queue
@@ -687,8 +697,20 @@ graph.hpp
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/edge.hpp
 SFML/Graphics/Vertex.hpp
 -
+SFML/Graphics/CircleShape.hpp
+-
 node.hpp
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/node.hpp
+
+/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/floydw.hpp
+map
+-
+algorithm
+-
+iostream
+-
+graph.hpp
+/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/graph.hpp
 
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/graph.hpp
 vector
@@ -717,10 +739,18 @@ SFML/Graphics/Texture.hpp
 -
 SFML/Graphics/Sprite.hpp
 -
+thread
+-
+future
+-
 graph.hpp
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/graph.hpp
-Dijkstra.hpp
-/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/Dijkstra.hpp
+aStar.hpp
+/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/aStar.hpp
+bellmanf.hpp
+/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/bellmanf.hpp
+floydw.hpp
+/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/floydw.hpp
 
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/node.hpp
 SFML/Graphics/CircleShape.hpp

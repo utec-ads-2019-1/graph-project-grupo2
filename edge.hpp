@@ -14,8 +14,10 @@ class Edge {
 
 		friend class FloydWarshall;
 		friend class BellmanFord;
+        friend class dijkstra;
 
-    private:
+
+private:
         E data;
         bool dir;
         node* nodes[2];
@@ -33,7 +35,7 @@ class Edge {
 
 			line[0] = sf::Vertex(sf::Vector2f(n1->x + 20, n1->y + 20));
 			line[1] = sf::Vertex(sf::Vector2f(n2->x + 20, n2->y + 20));
-			
+
 			if (dir == false)
 			{
 				directed_symbol.setRadius(5);

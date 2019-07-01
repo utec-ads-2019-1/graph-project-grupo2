@@ -18,8 +18,10 @@ class Node
 		N data;
 		friend class FloydWarshall;
 		friend class BellmanFord;
+        friend class dijkstra;
 
-	private:
+
+private:
 		float x;
 		float y;
 		EdgeSeq edges;
@@ -31,10 +33,7 @@ class Node
 		template <typename T> friend class Graph;
 		friend class aStar;
 
-        friend class dijkstra ;
-
-
-public:
+	public:
 		Node(N data) : data(data)
 		{
 			//

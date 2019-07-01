@@ -12,6 +12,7 @@
 #include "aStar.hpp"
 #include "bellmanf.hpp"
 #include "floydw.hpp"
+#include "dijkstra.hpp"
 
 aStar f(graph g, char a, char b)
 {

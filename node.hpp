@@ -14,8 +14,12 @@ class Node
 		typedef typename G::edge edge;
 		typedef typename G::EdgeSeq EdgeSeq;
 
-	private:
+	protected:
 		N data;
+		friend class FloydWarshall;
+		friend class BellmanFord;
+
+	private:
 		float x;
 		float y;
 		EdgeSeq edges;
@@ -25,6 +29,7 @@ class Node
 
 		template <typename T> friend class Edge;
 		template <typename T> friend class Graph;
+		friend class aStar;
 
         friend class dijkstra ;
 

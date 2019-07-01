@@ -1,0 +1,8 @@
+/home/yoncho/Downloads/clion-2019.1.4/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2
+-- Found SFML 2.5.1 in /home/yoncho/Downloads/SFML-2.5.1/lib/cmake/SFML
+-- SFML_INCLUDE_DIR: /home/yoncho/Downloads/SFML-2.5.1/include
+-- SFML_LIBRARIES: 
+-- SFML_VERSION: 2.5.1
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/cmake-build-debug

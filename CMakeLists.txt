@@ -27,5 +27,5 @@ set_property(DIRECTORY APPEND PROPERTY
         "compile_commands.json"
         )
 
-add_executable(graph.hpp ${src})
+add_executable(graph ${src})
 target_link_libraries (graph sfml-graphics sfml-window sfml-system)

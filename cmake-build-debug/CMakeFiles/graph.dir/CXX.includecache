@@ -676,6 +676,7 @@ SFML/Config.hpp
 
 /home/yoncho/Downloads/SFML-2.5.1/include/SFML/Window/WindowStyle.hpp
 
+<<<<<<< HEAD
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/aStar.hpp
 vector
 -
@@ -702,6 +703,8 @@ queue
 graph.hpp
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/graph.hpp
 
+=======
+>>>>>>> parent of 728734b... guarddo
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/edge.hpp
 SFML/Graphics/Vertex.hpp
 -
@@ -753,6 +756,7 @@ future
 -
 graph.hpp
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/graph.hpp
+<<<<<<< HEAD
 aStar.hpp
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/aStar.hpp
 bellmanf.hpp
@@ -761,6 +765,8 @@ floydw.hpp
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/floydw.hpp
 dijkstra.hpp
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/dijkstra.hpp
+=======
+>>>>>>> parent of 728734b... guarddo
 
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/node.hpp
 SFML/Graphics/CircleShape.hpp

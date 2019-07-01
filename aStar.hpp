@@ -51,7 +51,8 @@ class aStar : public graph
 					E weight = neighbour->data + vec[1];
 					int dist = res.heuristic(number, f) + weight;
 					std::vector<int> row{number, weight, dist, current};
-					if (auto it = res.row_exists(number); it != res.table.end())
+                    auto it = res.row_exists(number);
+					if ( it != res.table.end())
 					{
 						if (dist < (*it)[2])
 						{

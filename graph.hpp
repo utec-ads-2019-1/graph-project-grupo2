@@ -61,8 +61,8 @@ class Graph {
         {
             node* newNode;
             NodeIte it;
-
-            if (it = node_exists(data); it == nodes.end())
+            it = node_exists(data);
+            if ( it == nodes.end())
             {
                 newNode = new node(data, x, y);
                 nodes.push_back(newNode);
@@ -73,8 +73,8 @@ class Graph {
         {
             NodeIte it;
             EdgeIte e_it;
-
-            if (it = node_exists(data); it == nodes.end())
+            it = node_exists(data);
+            if ( it == nodes.end())
                 return;
             else
             {
@@ -93,12 +93,14 @@ class Graph {
             edge *newEdge1, *newEdge2;
             NodeIte it1, it2;
             EdgeIte it3;
-            
-            if (it1 = node_exists(node1); it1 == nodes.end())
+            it1 = node_exists(node1);
+            if ( it1 == nodes.end())
                 return;
-            if (it2 = node_exists(node2); it2 == nodes.end())
+            it2 = node_exists(node2);
+            if ( it2 == nodes.end())
                 return;
-            if (it3 = edge_exists(node1, node2); it3 != edges.end())
+            it3 = edge_exists(node1, node2);
+            if ( it3 != edges.end())
                 return;
             else
             {
@@ -120,11 +122,14 @@ class Graph {
             NodeIte it1, it2;
             EdgeIte it3;
 
-            if (it1 = node_exists(n1); it1 == nodes.end())
+            it1 = node_exists(n1);
+            if ( it1 == nodes.end())
                 return;
-            if (it2 = node_exists(n2); it2 == nodes.end())
+            it2 = node_exists(n2);
+            if (it2 == nodes.end())
                 return;
-            if (it3 = edge_exists(n1, n2); it3 != edges.end())
+            it3 = edge_exists(n1, n2);
+            if ( it3 != edges.end())
             {
                 for (auto it = (*it1)->edges.begin(); it != (*it1)->edges.end(); ++it)
                     if ((*it)->nodes[1]->data == n2)

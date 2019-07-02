@@ -102,8 +102,6 @@ int main(int argc, char **argv)
 		results[i] = future.get();
 	}
 
-	aStar path = aStar::get_path(g, 'a', 'g');
-
 	while (window.isOpen())
 	{
 		sf::Event event;

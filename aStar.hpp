@@ -38,7 +38,9 @@ class aStar : public graph
 			int current = res.p[start];
 			int f = res.p[finish];
 
-			std::vector<int> init{current, 0, res.heuristic(current, f), -1};
+			std::vector<int> init{current, 0, res.heuristic(current, f), current};
+			auto new_node = new node(res.n[current]->data, res.n[current]->x, res.n[current]->y);
+			res.nodes.push_back(new_node);
 			res.table.push_back(init);
 			while (current != f)
 			{
@@ -64,9 +66,17 @@ class aStar : public graph
 					}
 				}
 				current = res.get_min();
-				res.print_table();
+				auto new_node = new node(res.n[current]->data, res.n[current]->x, res.n[current]->y);
+				res.nodes.push_back(new_node);
 			}
-			res.print_table();
+			for (auto it = res.nodes.begin(); it != res.nodes.end() - 1; ++it)
+			{
+				auto new_edge = new edge(*it, *(it + 1), 0, true);
+				res.edges.push_back(new_edge);
+			}
+			res.print_nodes();
+			res.print_edges();
+			std::cout << '\n';
 			return (res);
 		}
 
@@ -79,6 +89,7 @@ class aStar : public graph
 					return (row);
 				}
 			}
+			return std::vector<int>();
 		}
 		
 		void print_visited()
@@ -108,6 +119,7 @@ class aStar : public graph
 					return row[0];
 				}
 			}
+			return -1;
 		}
 
 		int get_min()
@@ -133,15 +145,27 @@ class aStar : public graph
 					return (row[2]);
 				}
 			}
+			return -1;
 		}
 
 		void print_table()
 		{
+			unsigned int i;
 			for (auto row : table)
 			{
+				i = 0;
 				for (auto col : row)
 				{
 					std::cout << col << ' ';
+					if (i == 0 || i == 3)
+					{
+						std::cout << n[col]->data << ' ';
+					}
+					else
+					{
+						std::cout << col << ' ';
+					}
+					++i;
 				}
 				std::cout << '\n';
 			}

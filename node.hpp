@@ -5,7 +5,6 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Font.hpp>
 
-
 template <typename G>
 class Node
 {
@@ -30,6 +29,7 @@ class Node
 
 		template <typename T> friend class Edge;
 		template <typename T> friend class Graph;
+		friend class aStar;
 
 	public:
 		Node(N data) : data(data)

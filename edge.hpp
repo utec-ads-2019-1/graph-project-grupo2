@@ -2,6 +2,7 @@
 #define EDGE_H
 
 #include <SFML/Graphics/Vertex.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 
 #include "node.hpp"
 
@@ -19,8 +20,10 @@ class Edge {
         bool dir;
         node* nodes[2];
 		sf::Vertex line[2];
+		sf::CircleShape directed_symbol;
 
 		template <typename T> friend class Graph;
+		friend class aStar;
 
 	public:
 		Edge(node *n1, node *n2, E data, bool dir) : dir(dir), data(data)
@@ -30,6 +33,12 @@ class Edge {
 
 			line[0] = sf::Vertex(sf::Vector2f(n1->x + 20, n1->y + 20));
 			line[1] = sf::Vertex(sf::Vector2f(n2->x + 20, n2->y + 20));
+			
+			if (dir == false)
+			{
+				directed_symbol.setRadius(5);
+				directed_symbol.setPosition(((n1->x + n2->x + 40) / 2), ((n1->y + n2->y + 40) / 2));
+			}
 		}
 
 		~Edge()
@@ -44,6 +53,7 @@ class Edge {
 		void draw(sf::RenderWindow &window)
 		{
 			window.draw(line, 2, sf::Lines);
+			window.draw(directed_symbol);
 		}
 };
 

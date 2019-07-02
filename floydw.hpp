@@ -1,20 +1,21 @@
 #ifndef FLOYDW_HPP
 #define FLOYDW_HPP
 
-#include "graph.hpp"
 #include <map>
 #include <algorithm>
 #include <iostream>
 
+#include "graph.hpp"
+
 using namespace std;
 
-class FloydWarshall : public graph {
+class FloydWarshall : public graph
+{
 private:
 	E **path, **weight;
 	E num_nodes;
 	map<N, E> reg;
 	map<E, N> reg_nodes;
-	//clang++ -std=c++17 main.cpp -o main -lsfml-graphics -lsfml-window -lsfml-system
 
 public:
 	FloydWarshall(graph g) {
@@ -26,15 +27,15 @@ public:
 		path = new E*[num_nodes];
 		weight = new E*[num_nodes];
 
-		for (int i = 0; i < num_nodes; ++i) {
+		for (int i = 0; i < num_nodes; ++i)
+		{
 			path[i] = new E[num_nodes];
 			weight[i] = new E[num_nodes];
 			
 			fill_n(weight[i], num_nodes, __INT_MAX__);
 			
-			for (int j = 0; j < num_nodes; ++j) {
+			for (int j = 0; j < num_nodes; ++j)
 				path[i][j] = j + 1;
-			}
 
 			path[i][i] = weight[i][i] = 0;
 
@@ -53,10 +54,13 @@ public:
 			if (!e->dir) weight[n2][n1] = e->data;
 		}
 
-		for (int i = 0; i < num_nodes; ++i) {
-			for (int j = 0; j < num_nodes; ++j) {
+		for (int i = 0; i < num_nodes; ++i)
+		{
+			for (int j = 0; j < num_nodes; ++j)
+			{
 				if (i == j) continue;
-				for (int k = 0; k < num_nodes; ++k) {
+				for (int k = 0; k < num_nodes; ++k)
+				{
 					if (i == k) continue;
 					if (j == k) continue;
 					
@@ -65,7 +69,8 @@ public:
 					
 					val_temp = weight[j][i] * weight[i][k];
 
-					if (val_temp < weight[j][k]) {
+					if (val_temp < weight[j][k])
+					{
 					/* For show all changes
 						cout << "Change [" << reg_nodes[j + 1] << "][" << reg_nodes[k + 1] << "] ";
 						cout << weight[j][k] << " by " << val_temp;
@@ -83,11 +88,14 @@ public:
 	void print_matrix() {
 		cout << "Matrix de pesos" << endl;
 
-		for (int i = -1; i < num_nodes; ++i) {
+		for (int i = -1; i < num_nodes; ++i)
+		{
 			if (i == -1) cout << "\t";
 			else cout << "\t" << reg_nodes[i + 1];
-			for (int j = 0; j < num_nodes; ++j) {
-				if (i == -1) {
+			for (int j = 0; j < num_nodes; ++j)
+			{
+				if (i == -1)
+				{
 					cout << "\t"<< reg_nodes[j + 1] << " ";
 					continue;
 				}
@@ -102,11 +110,14 @@ public:
 
 		cout << endl << "Matrix de caminos" << endl;
 
-		for (int i = -1; i < num_nodes; ++i) {
+		for (int i = -1; i < num_nodes; ++i)
+		{
 			if (i == -1) cout << "\t";
 			else cout << "\t" << reg_nodes[i + 1];
-			for (int j = 0; j < num_nodes; ++j) {
-				if (i == -1) {
+			for (int j = 0; j < num_nodes; ++j)
+			{
+				if (i == -1)
+				{
 					cout << "\t"<< reg_nodes[j + 1] << " ";
 					continue;
 				}

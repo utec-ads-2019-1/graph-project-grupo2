@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <queue>
+
 #include "graph.hpp"
 
 using namespace std;
@@ -38,7 +39,6 @@ public:
         path[0][0] = init;
         path[0][1] = 0;
         path[0][2] = init;
-    
 
         E temp_weight;
         N temp_data, ptr_data;
@@ -47,8 +47,8 @@ public:
         while (qnode.size()) {
             temp_data = qnode.front()->data;
             temp_weight = path[reg[temp_data]][1];
-
-            for (edge *e : qnode.front()->edges) {
+            for (edge *e : qnode.front()->edges)
+			{
                 ptr_node = e->edgePair(qnode.front());
                 ptr_data = ptr_node->data;
 
@@ -70,7 +70,6 @@ public:
             reg[eval] = count;
             return 1;
         }
-
         if (path[reg[eval]][1] > weight) {
             path[reg[eval]][1] = weight;
             path[reg[eval]][2] = origin;
@@ -87,6 +86,6 @@ public:
             } cout << endl;
         }
     }
-    
 };
+
 #endif

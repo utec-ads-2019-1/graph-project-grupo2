@@ -46,12 +46,14 @@ class Graph {
 
 		~Graph()
 		{
+			/* 
 			unsigned nodes_size;
 
 			nodes_size = nodes.size();
 			for (size_t i = 0; i < nodes_size; ++i)
 				delete nodes[i];
 			nodes.clear();
+			*/
 		}
 		
 		void add_node(N data, float x, float y)

@@ -14,6 +14,8 @@ class Edge {
 
 		friend class FloydWarshall;
 		friend class BellmanFord;
+		friend class Dijkstra;
+	
 
     private:
         E data;

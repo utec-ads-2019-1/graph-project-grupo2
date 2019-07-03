@@ -18,6 +18,7 @@ class Node
 		N data;
 		friend class FloydWarshall;
 		friend class BellmanFord;
+		friend class Dijkstra;
 
 	private:
 		float x;

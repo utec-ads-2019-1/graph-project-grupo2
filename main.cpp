@@ -74,6 +74,7 @@ int main(int argc, char **argv)
 
 	BellmanFord b(g, 'a');
 	FloydWarshall c(g);
+	//Dijstra d(g, 'a');
 
 	g.print_nodes();
 	g.print_edges();

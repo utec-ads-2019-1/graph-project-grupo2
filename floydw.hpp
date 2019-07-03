@@ -18,7 +18,7 @@ private:
 
 public:
 	FloydWarshall(graph g) {
-		nodes = g.nodes;
+		nodes = g.nodes
 		edges = g.edges;
 
 		num_nodes = g.nodes.size();

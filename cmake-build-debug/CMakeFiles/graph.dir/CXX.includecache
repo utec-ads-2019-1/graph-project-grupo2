@@ -684,13 +684,7 @@ queue
 graph.hpp
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/graph.hpp
 
-/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/edge.hpp
-SFML/Graphics/Vertex.hpp
--
-node.hpp
-/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/node.hpp
-
-/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/floydw.hpp
+/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/dijkstra.hpp
 graph.hpp
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/graph.hpp
 map
@@ -699,6 +693,16 @@ algorithm
 -
 iostream
 -
+vector
+-
+queue
+-
+
+/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/edge.hpp
+SFML/Graphics/Vertex.hpp
+-
+node.hpp
+/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/node.hpp
 
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/graph.hpp
 vector
@@ -731,8 +735,8 @@ graph.hpp
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/graph.hpp
 bellmanf.hpp
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/bellmanf.hpp
-floydw.hpp
-/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/floydw.hpp
+dijkstra.hpp
+/media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/dijkstra.hpp
 
 /media/yoncho/12B223A0B2238777/Cursos_UTEC/Ciclo_4/Algor/graph-project-grupo2/node.hpp
 SFML/Graphics/CircleShape.hpp

@@ -8,7 +8,7 @@
 
 #include "graph.hpp"
 #include "bellmanf.hpp"
-#include "floydw.hpp"
+#include "dijkstra.hpp"
 
 #define PI 3.14159265
 #define TWOPI 2 * PI
@@ -69,7 +69,10 @@ int main(int argc, char **argv)
 	g.add_edge('f', 'e', 10, true);
 
 //	BellmanFord f(g, 'a');
+    cout<<"error1"<<endl;
+    Dijkstra f(g, 'a');
 
+    cout<<"error2"<<endl;
 
 	g.print_nodes();
 	g.print_edges();

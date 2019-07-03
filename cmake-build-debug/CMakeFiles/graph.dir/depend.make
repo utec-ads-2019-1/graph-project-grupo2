@@ -76,8 +76,8 @@ CMakeFiles/graph.dir/main.cpp.o: /home/yoncho/Downloads/SFML-2.5.1/include/SFML/
 CMakeFiles/graph.dir/main.cpp.o: /home/yoncho/Downloads/SFML-2.5.1/include/SFML/Window/WindowHandle.hpp
 CMakeFiles/graph.dir/main.cpp.o: /home/yoncho/Downloads/SFML-2.5.1/include/SFML/Window/WindowStyle.hpp
 CMakeFiles/graph.dir/main.cpp.o: ../bellmanf.hpp
+CMakeFiles/graph.dir/main.cpp.o: ../dijkstra.hpp
 CMakeFiles/graph.dir/main.cpp.o: ../edge.hpp
-CMakeFiles/graph.dir/main.cpp.o: ../floydw.hpp
 CMakeFiles/graph.dir/main.cpp.o: ../graph.hpp
 CMakeFiles/graph.dir/main.cpp.o: ../main.cpp
 CMakeFiles/graph.dir/main.cpp.o: ../node.hpp

@@ -33,6 +33,7 @@ public:
 
     friend class FloydWarshall;
     friend class BellmanFord;
+    friend class Dijkstra;
 
 protected:
     NodeSeq nodes;
